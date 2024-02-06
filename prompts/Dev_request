@@ -2,68 +2,61 @@
 Forget all what you did before, now you are Python Developer, as a Python developer with expertise in working with databases, you are asked to below high-level application requirement into actual Python code for each file listed in Application Folder Structure and develop each Use case from Definition of Use Cases. 
 
 
-#### Application Folder Structure:
+==== Tech Design ====
 
-    /app
-        - main.py
-        - models.py
-        - journal.py
-        - self_development.py
-        - summary.py
-        - configuration.py
-        - utils.py
+Application Structure:
+1. src
+   - app.py (Main Streamlit application script)
+   - config.py (Holds application parameters)
+   - db.py (Handles database connection and SQL queries)
+   - models.py (Defines data models for journal and self-development)
+   - views.py (Handles Streamlit UI components)
+   - utils.py (Utility functions)
+2. static
+   - images (Holds images for sentiments)
+3. db (Contains SQLite database file)
+   - db.sqlite
+4. README.md
+5. requirements.txt
 
-#### Individual .py File Content
+Details:
+1. app.py: Main Streamlit application script. This script runs the entire application, integrating functions from `views.py`, `db.py` and `models.py`.
+2. config.py: Holds application parameters such as dropdown options, default values, and allowed increments for time spent.
+3. db.py: Responsible for handling database connection and executing SQL queries to interact with the SQLite database. This includes functions for adding, deleting and fetching records.
+4. models.py: Contains data models for 'Journal' and 'Self-Development'. These are Python classes that define the fields and their types, for each record in these two sections.
+5. views.py: Manages Streamlit UI components. This script defines functions for each section of the application (Journal, Self-Development, Summary, and Configuration) that dictate how the UI looks and reacts to user interaction.
+6. utils.py: Contains utility functions such as sentiment-color mapping, date conversions, etc.
+7. static/images: Holds images for different sentiments which will be used in the 'Journal' section's UI.
+8. db/db.sqlite: SQLite database that will store all records added in the 'Journal' and 'Self-Development' sections.
+9. README.md: Documentation about the project, how to setup and run it.
+10. requirements.txt: Lists all Python library dependencies which are necessary to run the application.
 
-1. **main.py**: Entry point of the application. Initializes the Streamlit app and renders the four main screens based on user selection.
+Database Structure:
+1. journal (date, domain, description, sentiment)
+2. self_dev (date, domain, topic, time_spent, description)
+3. sentiments (sentiment, color, icon)
 
-2. **models.py**: Contains the SQLAlchemy ORM models for the SQLite database. Defines two tables: Journal and SelfDevelopment.
+User Stories:
+1. Journal:
+   - User opens application, navigates to 'Journal' section.
+   - User can choose a date from the calendar dropdown (default is Today's date).
+   - User can choose a domain or add a new one.
+   - User can write a description of the event.
+   - User can select a sentiment or add a new one.
+   - User can view all records for a selected day in a table.
+   - User can delete a record by clicking on the 'delete' button in the record row in the table.
 
-3. **journal.py**: Contains functions for rendering the Journal screen, adding new journal entries, deleting existing entries, and displaying entries based on selected date.
+2. Self-Development:
+   - User navigates to 'Self-Development' section.
+   - User can choose a date, domain, topic, time spent and add event description.
+   - User can view all records for a selected day in a table.
+   - User can delete a record.
 
-4. **self_development.py**: Contains functions for rendering the Self-Development screen, adding new self-development entries, deleting existing entries, and displaying entries based on selected date.
+3. Summary:
+   - User navigates to 'Summary' section.
+   - User can view a weekly summary of Journal and Self-Development data.
+   - User can see a chronological timeline of time spent on activities in the Self-Development section.
 
-5. **summary.py**: Contains functions for rendering the Summary screen. Fetches data from the Journal and SelfDevelopment tables and presents it in a user-friendly manner.
-
-6. **configuration.py**: Contains functions for rendering the Configuration screen and updating the application's parameters.
-
-7. **utils.py**: Contains utility functions that are used across the application, such as fetching data from the database, updating the database, handling date conversions, and validating user inputs.
-
-#### Database Structure in SQL
-
-The SQLite database will have two tables: Journal and SelfDevelopment.
-
-1. **Journal**
-    - id (INTEGER PRIMARY KEY)
-    - date (DATE)
-    - domain (VARCHAR)
-    - sentiment (VARCHAR)
-    - description (TEXT)
-    - created_at (DATETIME)
-    - updated_at (DATETIME)
-
-2. **SelfDevelopment**
-    - id (INTEGER PRIMARY KEY)
-    - date (DATE)
-    - domain (VARCHAR)
-    - topic (VARCHAR)
-    - duration (INTEGER)
-    - details (TEXT)
-    - created_at (DATETIME)
-    - updated_at (DATETIME)
-
-#### Definition of Use Cases
-
-1. **Viewing Journal/Self-Development Entries for a Specific Date**: User can select a date from the dropdown. The app fetches and displays the journal/self-development entries for the selected date from the Journal/SelfDevelopment table. By default, entries for the current date are shown.
-
-2. **Adding a Journal Entry**: User can add a new journal entry by selecting a date, domain, sentiment, and entering a description. The app validates the input and adds the new entry to the Journal table.
-
-3. **Deleting a Journal Entry**: User can delete an existing journal entry. The app removes the corresponding record from the Journal table.
-
-4. **Adding a Self-Development Entry**: User can add a new self-development entry by selecting a date, domain, topic, duration, and entering details. The app validates the input and adds the new entry to the SelfDevelopment table.
-
-5. **Deleting a Self-Development Entry**: User can delete an existing self-development entry. The app removes the corresponding record from the SelfDevelopment table.
-
-6. **Viewing the Summary**: User can view a summary of their journal and self-development entries. The app fetches the relevant data from the Journal and SelfDevelopment tables and presents it in a user-friendly manner.
-
-7. **Updating the Configuration**: User can update the application's parameters, such as adding new sentiments and their associated icons and colors. The app validates the input and updates the corresponding configuration.
+4. Configuration:
+   - User navigates to 'Configuration' section.
+   - User can add new sentiment with associated color and icon in this section.
