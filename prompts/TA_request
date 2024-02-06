@@ -6,20 +6,35 @@ To ensure optimal user experience recommend using a clean, minimalist design for
 user-friendly features, and bright, uplifting colors. Think in step by step mode, asking more detail on business requirements in case needed.
 
 ==== Request ===
-The app will be intuitively designed, centered around 4 main screens or menu items: Journal, Self-Development, Summary and Configuration.
+1. Journal: As a user, I want to:
+   - Add records with a specific date. This should be done through a dropdown that allows me to access a calendar and select any day. By default, the date should be set to today.
+   - Choose a domain from a dropdown menu (work, personal, global etc.) or add a new one.
+   - Describe the event of each record. This will help to record the details of my activities.
+   - Select a sentiment, to record how I feel about the event. The options should be positive, negative, worried, delighted, or I could add a new one.
+   - View all the records for a selected day. The records should be presented in a table format, with icons and colors indicating the sentiment.
+   - I want to be able to delete a record from the table.
 
-1. **Journal**: The Journal interface will have a date function that defaults to the present date, but, through a drop-down menu or calendar interface, can be set to any specific date the user chooses. Also, it will have a domain section that includes four pre-set options - work, personal, global, and an "add new" option that would allow the user to personalize domains. The sentiment functionality will have a range of human emotions for the user to select, such as positive, negative, worried, delighted, and an option to add new variants. Lastly, there will be an item description section where the users can jot down the particulars of their day - this could include routine activities, special events, thoughts, reflections, etc. 
-Below entry filed it will be shown all the record for selected day in table format with icons and colors depending on sentiment, in case date is changed it will show updated information for selected date. 
-As well user will be able to delete record from table. 
+2. Self-Development: As a user, I want to:
+   - Add records with a specific date.
+   - Choose a domain from a dropdown menu (coding, training, blogs etc.) or add a new one.
+   - Choose a topic for each domain from a dropdown menu or add a new one.
+   - Record the time spent on an event from a dropdown menu with increments of 15 minutes, up to 2 hours.
+   - Describe the event in each record.
+   - View all the records for a selected day in a table format.
+   - I want to be able to delete a record from the table.
 
-2. **Self-Development**: Akin to the Journal section, this will also have a date selection functionality with the same properties. In the self-development-domain section for this page, there are options for coding, training, blogs, and an "add new" option for adding new self-development-domains. This section can be subdivided into topic sections that are dependent on the development-domain (Ex: coding -> open source, pet project; training -> Coursera, podcast, etc). The time spent on each topic can be entered in increments of 15 minutes, up to 2 hours, to display the user's dedication to self-development activities. Lastly, similar to the Journal, this area will also have an event description section meant for inputting details about the activity.
-Below entry filed it will be shown all the record for selected day in table format with  depending on duration, in case date is changed it will show updated information for selected date.
-As well user will be able to delete record from table. 
+3. Summary: As a user, I want to:
+   - View a weekly summary that contains data from the Journal and Self-Development sections, to have an overview of my progress.
+   - See how much time I've spent on each topic in the Self-Development section, displayed in a chronological timeline.
 
-3. **Summary**: This will be the dashboard that displays a weekly summary gathering data from the Journal and Self-Development sections. 
-It will display an overview of journal entries and a chronological time track of each topic in Self-Development, indicating the overall time spent on each of them.
+4. Configuration: As a user, I want to:
+   - Set up parameters for the application.
+   - Add new sentiments, with associated icons and colors, to customize how my records are presented visually.
 
-4. **Configuration**: This will be the screen where you can setup parameters for application add new sentiments and associated icons for them and colors which they should use to be show on table, ex for positive green for negative red.   
+For the best user experience, we'll ensure the application is designed to be intuitive and user-friendly, with a clean, modern look. All entries in the Journal and Self-Development sections will be easy to add, view, and delete. The Summary section will provide a visual and informative overview of the user's week, and the Configuration section will allow for customization of sentiments.
 
+In terms of business requirements, this application will be designed as a POC, so no authentication, user management, or logging system is needed at this stage. As we develop the product, we will gather feedback and make iterations to improve its functionality and user experience. 
+
+The user journey would involve them regularly adding entries to the Journal and Self-Development sections, tracking their progress throughout the week, adjusting their sentiments in the Configuration whenever necessary, and reviewing their weekly progress in the Summary section. Different use cases would include using the app to track personal or work activities, monitor their self-development, and reviewing their week to see their overall progress.
 === Response 
 

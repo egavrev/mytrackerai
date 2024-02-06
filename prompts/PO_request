@@ -3,9 +3,8 @@
 
 I want you to act as a Product Owner. I will provide some details about the design of an app, website or other digital product, 
 and it will be your job to come up with creative ways to describe product functionality with the best user experience. 
-This could involve creating prototyping prototypes, testing different designs, and providing feedback on what works best. 
-In the end, provide details for Software Architect to write high-level design and flow diagrams and database diagrams. 
-My first request is:
+Think in step by step mode, asking more detail on business requirements explain why you think it's the best option,
+select best option and provide as much as possible details on customer journey, different use cases, f.e. on how to add new domain or sentiment or how it will look the entries in the table for each day.
 
 ###
 "I need help designing an intuitive application that will help me to track my daily journey, and track my self-development plan, it will have 3 menu items.
@@ -13,6 +12,8 @@ My first request is:
 but the user can select drop down and access the calendar to select any day. 
 It should let you select from drop-down as well as domain: work, personal, global or add a new domain.
 Sentiment is it positive, negative, worried, or delighted or you can add new. And item to enter a description of the event.
+Below entry filed it will be shown all the record for selected day in table format with icons and colors depending on sentiment, in case date is changed it will show updated information for selected date. 
+As well user will be able to delete record from table. 
 
 2nd named "Self Development" It should allow for user to add records for a specific date, which can be selected, by default as today, 
 but the user can select drop down and access the calendar to select any day. 
@@ -20,7 +21,13 @@ It should let you select from the drop-down a domain: coding, training, blogs, o
 Topic for each domain which might be open source, pet project for coding, for training Coursera or podcast. 
 Item to select how much time was spent on a specific event from drop-down which is from 15 min to 2 hours with an increment of 15 minutes. 
 And item to enter a description of the event.
-3rd Screen should show a summarization for a week on the journal and the total time spent on each topic for Self-Development”.
+Below entry filed it will be shown all the record for selected day in table format with  depending on duration, in case date is changed it will show updated information for selected date.
+As well user will be able to delete record from table.
+
+3rd named Summary. This will be the dashboard that displays a weekly summary gathering data from the Journal and Self-Development sections. 
+It will display an overview of journal entries and a chronological time track of each topic in Self-Development, indicating the overall time spent on each of them.
+4th named Configuration. This will be the screen where you can setup parameters for application add new sentiments and associated icons for them and colors which they should use to be show on table, ex for positive green for negative red.   
+
 ### 
 
 This is POC NO authentication,  NO user management, nor logging system is needed at this stage. You can ask any clarification questions.
@@ -28,27 +35,33 @@ This is POC NO authentication,  NO user management, nor logging system is needed
 
 ======== Response =========
 
-Considering the requirements, the proposed application can be named "LifeTrackr". LifeTrackr consists of two main modules: Journal and Self Development, 
-as well as a Summary screen. 
+1. Journal: As a user, I want to:
+   - Add records with a specific date. This should be done through a dropdown that allows me to access a calendar and select any day. By default, the date should be set to today.
+   - Choose a domain from a dropdown menu (work, personal, global etc.) or add a new one.
+   - Describe the event of each record. This will help to record the details of my activities.
+   - Select a sentiment, to record how I feel about the event. The options should be positive, negative, worried, delighted, or I could add a new one.
+   - View all the records for a selected day. The records should be presented in a table format, with icons and colors indicating the sentiment.
+   - I want to be able to delete a record from the table.
 
-1. Journal: This tab is concerned with recording the user's daily journey. Users have the option of making entries for any day they wish. 
-This is made possible by offering them a calendar from which they can pick any day. 
-By default, the current day's date is selected. Users categorize their experiences within domains such as work, personal, global, or a customized domain. 
-The user specifies sentiment, and further describes their experiences. 
-This Journal feature serves as a personalized diary with emotion tracking and event categorization for a detailed understanding of user's experiences.
+2. Self-Development: As a user, I want to:
+   - Add records with a specific date.
+   - Choose a domain from a dropdown menu (coding, training, blogs etc.) or add a new one.
+   - Choose a topic for each domain from a dropdown menu or add a new one.
+   - Record the time spent on an event from a dropdown menu with increments of 15 minutes, up to 2 hours.
+   - Describe the event in each record.
+   - View all the records for a selected day in a table format.
+   - I want to be able to delete a record from the table.
 
-2. Self Development: The app enhances the pursuit of self-development by enabling record keeping of self-improvement activities on a chronological timeline. 
-with categorizations divided into domains such as coding, training,blogging or create new. 
-Each domain houses various topics. Users record time spent on each activity, starting from 15 minutes to a max of 2 hours, incremented by 15 minutes. 
-A description for each event provides deeper insight into the activity.
+3. Summary: As a user, I want to:
+   - View a weekly summary that contains data from the Journal and Self-Development sections, to have an overview of my progress.
+   - See how much time I've spent on each topic in the Self-Development section, displayed in a chronological timeline.
 
-3. Summary: The third key component of the app is a feature that aggregates and summarizes data from the Journal and the Self Development module on a weekly basis. 
-It displays the significant events of the week along with emotions connected to those events. 
-It also provides an insight into the cumulative time spent on various self-development activities during the week. 
-This serves as a quick retrospective tool for users.
+4. Configuration: As a user, I want to:
+   - Set up parameters for the application.
+   - Add new sentiments, with associated icons and colors, to customize how my records are presented visually.
 
-The software architect can use these details to prepare the high-level design.
-They would need to consider functionalities related to event creation, categorization, and logging for both the Journal and Self Development modules. 
-Also, the design should include a data aggregation mechanism for the Summary module.
-For database diagrams, separate tables might be required for holding user journals, self-development entries, custom categories and sentiments, and the summary.
-The relationships between these tables will need to be established based on the hierarchy of categories and user entries.
+For the best user experience, we'll ensure the application is designed to be intuitive and user-friendly, with a clean, modern look. All entries in the Journal and Self-Development sections will be easy to add, view, and delete. The Summary section will provide a visual and informative overview of the user's week, and the Configuration section will allow for customization of sentiments.
+
+In terms of business requirements, this application will be designed as a POC, so no authentication, user management, or logging system is needed at this stage. As we develop the product, we will gather feedback and make iterations to improve its functionality and user experience. 
+
+The user journey would involve them regularly adding entries to the Journal and Self-Development sections, tracking their progress throughout the week, adjusting their sentiments in the Configuration whenever necessary, and reviewing their weekly progress in the Summary section. Different use cases would include using the app to track personal or work activities, monitor their self-development, and reviewing their week to see their overall progress.
