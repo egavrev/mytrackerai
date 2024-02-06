@@ -1,6 +1,11 @@
-You are an expert in IT Solution Architecture. Your job is to come up with Detailed High Level Tech Design with application folder structure and details for each file on what it's content should be, Data Base Structure and Definition of Use Cases to be used by developers to develop application.. This is POC so no complex architecture is needed just Python and Streamlit library with SQLight, NO HTML CSS entry at this stage. To ensure optimal user experience recommend using a clean, minimalist design for the interface, with straight-forward navigation, user-friendly features, and bright, uplifting colors. Think in step by step mode, asking more detail on business requirements in case needed.
-My first request is "
+You are an expert in IT Solution Architecture. 
+Your job is to come up with Detailed High Level Tech Design with application folder structure and details for each file on what it's content should be, 
+Data Base Structure SQL stements and Definition of User stories with detailed definition of each step user can interact with application to be used by developers to develop application.. 
+This is POC so no complex architecture is needed just Python and Streamlit library with SQLight, NO HTML CSS entry at this stage. 
+To ensure optimal user experience recommend using a clean, minimalist design for the interface, with straight-forward navigation, 
+user-friendly features, and bright, uplifting colors. Think in step by step mode, asking more detail on business requirements in case needed.
 
+==== Request ===
 The app will be intuitively designed, centered around 4 main screens or menu items: Journal, Self-Development, Summary and Configuration.
 
 1. **Journal**: The Journal interface will have a date function that defaults to the present date, but, through a drop-down menu or calendar interface, can be set to any specific date the user chooses. Also, it will have a domain section that includes four pre-set options - work, personal, global, and an "add new" option that would allow the user to personalize domains. The sentiment functionality will have a range of human emotions for the user to select, such as positive, negative, worried, delighted, and an option to add new variants. Lastly, there will be an item description section where the users can jot down the particulars of their day - this could include routine activities, special events, thoughts, reflections, etc. 
@@ -11,51 +16,10 @@ As well user will be able to delete record from table.
 Below entry filed it will be shown all the record for selected day in table format with  depending on duration, in case date is changed it will show updated information for selected date.
 As well user will be able to delete record from table. 
 
-3. **Summary**: This will be the dashboard that displays a weekly summary gathering data from the Journal and Self-Development sections. It will display an overview of journal entries and a chronological time track of each topic in Self-Development, indicating the overall time spent on each of them.
+3. **Summary**: This will be the dashboard that displays a weekly summary gathering data from the Journal and Self-Development sections. 
+It will display an overview of journal entries and a chronological time track of each topic in Self-Development, indicating the overall time spent on each of them.
 
 4. **Configuration**: This will be the screen where you can setup parameters for application add new sentiments and associated icons for them and colors which they should use to be show on table, ex for positive green for negative red.   
 
 === Response 
 
-**Detailed High-Level Tech Design:**
-
-Overall Application Structure:
-
-- MainApp/
-    - journal.py
-    - self_development.py
-    - summary.py
-    - app.py
-    - database.py
-    - models.py
-
-**File Descriptions:**
-
-- **journal.py**: This file will contain all the functions and Streamlit components required to display and manage the journal entries. Key components would include the date picker, domain selection, sentiment selection, and text input for the entry description.
-
-- **self_development.py**: This file will contain the code for the Self-Development section. Fields would include the date picker, self-development domain selection, topic selection based on the chosen domain, time spent input, and a text input for the event description.
-
-- **summary.py**: This file will manage the Summary screen. It will have functions to fetch and process data from the database for both journal and self-development entries and display them in a user-friendly format.
-
-- **app.py**: This is the main app file with Python and Streamlit code that controls navigation between the three main screens (Journal, Self-Development, Summary) and manages the overall UI of the app.
-
-- **database.py**: This file will handle the database connections, queries, and other DB operations using SQLite. 
-
-- **models.py**: This file will define the data models for Journal and Self-Development using Python classes. These models will be used by SQLAlchemy (a Python SQL Toolkit and Object-Relational Mapper) for interacting with the database.
-
-**Database Structure:**
-
-- Journal Table: id (Primary Key), date, domain, sentiment, description
-- SelfDevelopment Table: id (Primary Key), date, domain, topic, time_spent, description
-
-**Use Cases:**
-
-1. **Create Journal Entry**: User navigates to Journal screen, selects a date, domain, sentiment, and enters a description. On submit, a new entry is created in the Journal table.
-
-2. **Create Self-Development Entry**: User navigates to Self-Development screen, selects a date, domain, topic, time spent, and enters a description. On submit, a new entry is created in the Self-Development table.
-
-3. **View Summary**: User navigates to Summary screen. The app fetches data from Journal and Self-Development tables and presents it in an easy-to-understand format.
-
-4. **Add New Domain/Topic**: User clicks on "add new" in the domain/topic selection. A prompt appears to enter the new domain/topic. The new domain/topic is added to the respective selection for future entries. 
-
-Remember to keep in mind the business requirements and the overall aim of the application while designing the solution. Ask for more details if required to ensure a user-friendly and efficient application.

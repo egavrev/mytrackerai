@@ -1,47 +1,69 @@
 
-Forget all what you did before, now you are Python Developer, as a Python developer with expertise in working with databases, you are asked to translate a high-level application design  into actual Python code and corresponding SQL queries for a client. Start with Database structure in SQL and database_init.py to initialize database, this script need to create DB structure.
-next define app.py according with app structure and python streamlit library.
+Forget all what you did before, now you are Python Developer, as a Python developer with expertise in working with databases, you are asked to below high-level application requirement into actual Python code for each file listed in Application Folder Structure and develop each Use case from Definition of Use Cases. 
 
 
-**Detailed High-Level Tech Design:**
+#### Application Folder Structure:
 
-Overall Application Structure:
+    /app
+        - main.py
+        - models.py
+        - journal.py
+        - self_development.py
+        - summary.py
+        - configuration.py
+        - utils.py
 
-- MainApp/
-    - journal.py
-    - self_development.py
-    - summary.py
-    - app.py
-    - database.py
-    - models.py
+#### Individual .py File Content
 
-**File Descriptions:**
+1. **main.py**: Entry point of the application. Initializes the Streamlit app and renders the four main screens based on user selection.
 
-- **journal.py**: This file will contain all the functions and Streamlit components required to display and manage the journal entries. Key components would include the date picker, domain selection, sentiment selection, and text input for the entry description.
+2. **models.py**: Contains the SQLAlchemy ORM models for the SQLite database. Defines two tables: Journal and SelfDevelopment.
 
-- **self_development.py**: This file will contain the code for the Self-Development section. Fields would include the date picker, self-development domain selection, topic selection based on the chosen domain, time spent input, and a text input for the event description.
+3. **journal.py**: Contains functions for rendering the Journal screen, adding new journal entries, deleting existing entries, and displaying entries based on selected date.
 
-- **summary.py**: This file will manage the Summary screen. It will have functions to fetch and process data from the database for both journal and self-development entries and display them in a user-friendly format.
+4. **self_development.py**: Contains functions for rendering the Self-Development screen, adding new self-development entries, deleting existing entries, and displaying entries based on selected date.
 
-- **app.py**: This is the main app file with Python and Streamlit code that controls navigation between the three main screens (Journal, Self-Development, Summary) and manages the overall UI of the app.
+5. **summary.py**: Contains functions for rendering the Summary screen. Fetches data from the Journal and SelfDevelopment tables and presents it in a user-friendly manner.
 
-- **database.py**: This file will handle the database connections, queries, and other DB operations using SQLite. 
+6. **configuration.py**: Contains functions for rendering the Configuration screen and updating the application's parameters.
 
-- **models.py**: This file will define the data models for Journal and Self-Development using Python classes. These models will be used by SQLAlchemy (a Python SQL Toolkit and Object-Relational Mapper) for interacting with the database.
+7. **utils.py**: Contains utility functions that are used across the application, such as fetching data from the database, updating the database, handling date conversions, and validating user inputs.
 
-**Database Structure:**
+#### Database Structure in SQL
 
-- Journal Table: id (Primary Key), date, domain, sentiment, description
-- SelfDevelopment Table: id (Primary Key), date, domain, topic, time_spent, description
+The SQLite database will have two tables: Journal and SelfDevelopment.
 
-**Use Cases:**
+1. **Journal**
+    - id (INTEGER PRIMARY KEY)
+    - date (DATE)
+    - domain (VARCHAR)
+    - sentiment (VARCHAR)
+    - description (TEXT)
+    - created_at (DATETIME)
+    - updated_at (DATETIME)
 
-1. **Create Journal Entry**: User navigates to Journal screen, selects a date, domain, sentiment, and enters a description. On submit, a new entry is created in the Journal table.
+2. **SelfDevelopment**
+    - id (INTEGER PRIMARY KEY)
+    - date (DATE)
+    - domain (VARCHAR)
+    - topic (VARCHAR)
+    - duration (INTEGER)
+    - details (TEXT)
+    - created_at (DATETIME)
+    - updated_at (DATETIME)
 
-2. **Create Self-Development Entry**: User navigates to Self-Development screen, selects a date, domain, topic, time spent, and enters a description. On submit, a new entry is created in the Self-Development table.
+#### Definition of Use Cases
 
-3. **View Summary**: User navigates to Summary screen. The app fetches data from Journal and Self-Development tables and presents it in an easy-to-understand format.
+1. **Viewing Journal/Self-Development Entries for a Specific Date**: User can select a date from the dropdown. The app fetches and displays the journal/self-development entries for the selected date from the Journal/SelfDevelopment table. By default, entries for the current date are shown.
 
-4. **Add New Domain/Topic**: User clicks on "add new" in the domain/topic selection. A prompt appears to enter the new domain/topic. The new domain/topic is added to the respective selection for future entries. 
+2. **Adding a Journal Entry**: User can add a new journal entry by selecting a date, domain, sentiment, and entering a description. The app validates the input and adds the new entry to the Journal table.
 
-Remember to keep in mind the business requirements and the overall aim of the application while designing the solution. Ask for more details if required to ensure a user-friendly and efficient application.
+3. **Deleting a Journal Entry**: User can delete an existing journal entry. The app removes the corresponding record from the Journal table.
+
+4. **Adding a Self-Development Entry**: User can add a new self-development entry by selecting a date, domain, topic, duration, and entering details. The app validates the input and adds the new entry to the SelfDevelopment table.
+
+5. **Deleting a Self-Development Entry**: User can delete an existing self-development entry. The app removes the corresponding record from the SelfDevelopment table.
+
+6. **Viewing the Summary**: User can view a summary of their journal and self-development entries. The app fetches the relevant data from the Journal and SelfDevelopment tables and presents it in a user-friendly manner.
+
+7. **Updating the Configuration**: User can update the application's parameters, such as adding new sentiments and their associated icons and colors. The app validates the input and updates the corresponding configuration.

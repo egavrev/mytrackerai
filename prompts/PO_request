@@ -1,0 +1,54 @@
+
+======= Requst =========
+
+I want you to act as a Product Owner. I will provide some details about the design of an app, website or other digital product, 
+and it will be your job to come up with creative ways to describe product functionality with the best user experience. 
+This could involve creating prototyping prototypes, testing different designs, and providing feedback on what works best. 
+In the end, provide details for Software Architect to write high-level design and flow diagrams and database diagrams. 
+My first request is:
+
+###
+"I need help designing an intuitive application that will help me to track my daily journey, and track my self-development plan, it will have 3 menu items.
+1st. named "Journal" it should allow the user to add records for a specific date, which can be selected, by default is today,  
+but the user can select drop down and access the calendar to select any day. 
+It should let you select from drop-down as well as domain: work, personal, global or add a new domain.
+Sentiment is it positive, negative, worried, or delighted or you can add new. And item to enter a description of the event.
+
+2nd named "Self Development" It should allow for user to add records for a specific date, which can be selected, by default as today, 
+but the user can select drop down and access the calendar to select any day. 
+It should let you select from the drop-down a domain: coding, training, blogs, or add a new domain. 
+Topic for each domain which might be open source, pet project for coding, for training Coursera or podcast. 
+Item to select how much time was spent on a specific event from drop-down which is from 15 min to 2 hours with an increment of 15 minutes. 
+And item to enter a description of the event.
+3rd Screen should show a summarization for a week on the journal and the total time spent on each topic for Self-Development”.
+### 
+
+This is POC NO authentication,  NO user management, nor logging system is needed at this stage. You can ask any clarification questions.
+
+
+======== Response =========
+
+Considering the requirements, the proposed application can be named "LifeTrackr". LifeTrackr consists of two main modules: Journal and Self Development, 
+as well as a Summary screen. 
+
+1. Journal: This tab is concerned with recording the user's daily journey. Users have the option of making entries for any day they wish. 
+This is made possible by offering them a calendar from which they can pick any day. 
+By default, the current day's date is selected. Users categorize their experiences within domains such as work, personal, global, or a customized domain. 
+The user specifies sentiment, and further describes their experiences. 
+This Journal feature serves as a personalized diary with emotion tracking and event categorization for a detailed understanding of user's experiences.
+
+2. Self Development: The app enhances the pursuit of self-development by enabling record keeping of self-improvement activities on a chronological timeline. 
+with categorizations divided into domains such as coding, training,blogging or create new. 
+Each domain houses various topics. Users record time spent on each activity, starting from 15 minutes to a max of 2 hours, incremented by 15 minutes. 
+A description for each event provides deeper insight into the activity.
+
+3. Summary: The third key component of the app is a feature that aggregates and summarizes data from the Journal and the Self Development module on a weekly basis. 
+It displays the significant events of the week along with emotions connected to those events. 
+It also provides an insight into the cumulative time spent on various self-development activities during the week. 
+This serves as a quick retrospective tool for users.
+
+The software architect can use these details to prepare the high-level design.
+They would need to consider functionalities related to event creation, categorization, and logging for both the Journal and Self Development modules. 
+Also, the design should include a data aggregation mechanism for the Summary module.
+For database diagrams, separate tables might be required for holding user journals, self-development entries, custom categories and sentiments, and the summary.
+The relationships between these tables will need to be established based on the hierarchy of categories and user entries.
