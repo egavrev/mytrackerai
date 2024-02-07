@@ -1,12 +1,16 @@
 import streamlit as st
 import journal
+import self_development
+import summary
+import configuration
+
 
 
 PAGES = {
-    "Journal": journal
-    #"Self Development": self_development,
-    #"Summary": summary,
-    #"Configuration": configuration
+    "Journal": journal,
+    "Self Development": self_development,
+    "Summary": summary,
+    "Configuration": configuration
 }
 
 def main():
