@@ -1,58 +1,72 @@
 import streamlit as st
-from models import Journal, engine
-from sqlalchemy.orm import sessionmaker
-from utils import fetch_data, update_db, handle_date_conversion, validate_input
-import datetime
+import sqlite3
 
-Session = sessionmaker(bind=engine)
-session = Session()
+# Establish a SQLite connection
+conn = sqlite3.connect('sqlite.db')
+c = conn.cursor()
 
-# Function to render the Journal screen
-def render():
-    # Show existing entries
-    st.header('Existing Entries')
-    journal_entries = fetch_data(Journal)
-    for entry in journal_entries:
-        st.subheader(f'Date: {entry.date}')
-        st.text(f'Domain: {entry.domain}')
-        st.text(f'Sentiment: {entry.sentiment}')
-        st.text(f'Description: {entry.description}')
-    
-    # Add new entry
-    st.header('Add New Entry')
-    date = st.date_input('Date', datetime.date.today())
-    domain = st.text_input('Domain')
-    sentiment = st.text_input('Sentiment')
-    description = st.text_area('Description')
-    add_button = st.button('Add Entry')
-    
+def add_journal_entry():
+    st.subheader("Add a new journal entry")
+    date = st.date_input("Date")
+    domain = st.text_input("Domain")
+    sentiment = st.text_input("Sentiment")
+    event_desc = st.text_area("Event Description")
+    add_button = st.button("Add Journal Entry")
     if add_button:
-        if validate_input(domain) and validate_input(sentiment) and validate_input(description):
-            add_entry(date, domain, sentiment, description)
-        else:
-            st.error('Invalid input')
-    
-    # Delete existing entry
-    st.header('Delete Entry')
-    entry_id = st.number_input('Entry ID', min_value=1)
-    delete_button = st.button('Delete Entry')
-    
-    if delete_button:
-        delete_entry(entry_id)
+        # Create a new connection
+        conn = sqlite3.connect('sqlite.db')
+        c = conn.cursor()
 
-# Function to add a new journal entry
-def add_entry(date, domain, sentiment, description):
-    new_entry = Journal(date=handle_date_conversion(date), domain=domain, sentiment=sentiment, description=description,
-                        created_at=datetime.datetime.now(), updated_at=datetime.datetime.now())
-    update_db(new_entry)
-    st.success('Entry added successfully')
+        # Use the connection
+        c.execute('INSERT INTO journal(date, domain, sentiment, description) VALUES (?, ?, ?, ?)',
+                  (date, domain, sentiment, event_desc))
 
-# Function to delete a journal entry
-def delete_entry(id):
-    entry = session.query(Journal).get(id)
-    if entry is not None:
-        session.delete(entry)
-        session.commit()
-        st.success('Entry deleted successfully')
-    else:
-        st.error('Entry not found')
+        # Commit the changes and close the connection
+        conn.commit()
+        conn.close()
+
+        st.success("Successfully added a new journal entry")
+
+def view_journal_entries():
+    st.subheader("View journal entries")
+
+    # Create a new connection
+    conn = sqlite3.connect('sqlite.db')
+    c = conn.cursor()
+
+    # Use the connection
+    result = c.execute('SELECT * FROM journal ORDER BY date DESC').fetchall()
+    for i in result:
+        st.write(i)
+
+    # Close the connection
+    conn.close()
+
+def delete_journal_entry():
+    st.subheader("Delete a journal entry")
+
+    # Create a new connection
+    conn = sqlite3.connect('sqlite.db')
+    c = conn.cursor()
+
+    # Use the connection
+    entry_list = [i[0] for i in c.execute('SELECT entry_id FROM journal')]
+    selected_entry = st.selectbox("Select entry", entry_list)
+    if st.button("Delete"):
+        c.execute('DELETE FROM journal WHERE entry_id = ?', (selected_entry,))
+        conn.commit() 
+        st.success("Entry deleted")
+
+    # Close the connection
+    conn.close()
+
+def app():
+    st.title("Journal")
+    menu = ["Add", "View", "Delete"]
+    choice = st.sidebar.selectbox("Menu", menu)
+    if choice == "Add":
+        add_journal_entry()
+    elif choice == "View":
+        view_journal_entries()
+    elif choice == "Delete":
+        delete_journal_entry()

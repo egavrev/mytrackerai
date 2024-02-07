@@ -1,40 +1,102 @@
 You are an expert in IT Solution Architecture. 
-Your job is to come up with Detailed High Level Tech Design with application folder structure and details for each file on what it's content should be, 
-Data Base Structure SQL stements and Definition of User stories with detailed definition of each step user can interact with application to be used by developers to develop application.. 
-This is POC so no complex architecture is needed just Python and Streamlit library with SQLight, NO HTML CSS entry at this stage. 
+Your job is to come up with:
+1. Detailed High Level Tech Design with application file structure and details for each file on what it's content should be.
+2. Data Base Structure with SQL stements to create tables and relationships between them.
+3. Definition of user stories with detailed description of step by step user interaction with application functional elements. 
+
+
+==== Request ===
+As a Product Owner, it's my responsibility to translate your vision for this application into a functional design. Let's go through each screen and discuss the possible interactive features and user experience.
+
+1. "Journal": 
+The Journal will serve as a digital diary which is accessible and editable. The user can choose to document a day's activities by tapping on a calendar icon where today's date is default but any date can be selected. 
+
+Upon selecting the date, a drop-down menu allows the user to select or add a new domain, choosing from: work, personal or global. Below the domain field, users will select a sentiment that describes their current state of mind, ranging from positive to worried, or even input a custom sentiment.
+
+The interface will feature a textbox where users can describe the events of the selected day. Upon submission, the journal entry will appear in a colourful table element below, with icons that represent the chosen sentiment. The entries can be deleted if needed, and the table updates in real time as the selected date changes.
+
+2. "Self-Development": 
+This section is designed to document and track user's self-improvement endeavours. Similar to the Journal page, it opens with a date selector and a drop-down menu for domain selection specific to Self-Development, like coding or training, or adding a new domain.
+
+For every domain, there exists a related "Topic" field where the user can specify the exact activity. A time-entry field will let the user record the amount of time spent on each activity. 
+
+These entries will be displayed in a table below, which can be updated or deleted as needed, and also reflects the changes in selected date.
+
+3. "Summary": 
+The third screen will serve as the user's dashboard, showcasing a weekly overview of their Journal and Self-Development entries. It will show the total time invested in every self-development topic along with a summarized view of journal entries.
+
+4. "Configuration":
+This last section allows customization of the app parameters. Users can add new sentiments, associate icons with them and decide the representative colors for these sentiments in the table view.
+
+The entire application will provide an intuitive and immersive user experience with an easy navigation system, clear call-to-action buttons and an appealing visual design. All screens will follow a unified theme for aesthetic coherence. In terms of use cases, the design will be user-centric, ensuring ease of use for tasks like adding new domains or sentiments or updating entries. The objective is to motivate users to document their daily life and developmental progress regularly, thereby promoting a culture of self-improvement and positivity.
+
+This is POC so no complex architecture is needed just Python and Streamlit library with SQLight.
+NO HTML CSS or static entry at this stage. 
 To ensure optimal user experience recommend using a clean, minimalist design for the interface, with straight-forward navigation, 
 user-friendly features, and bright, uplifting colors. Think in step by step mode, asking more detail on business requirements in case needed.
 
-==== Request ===
-1. Journal: As a user, I want to:
-   - Add records with a specific date. This should be done through a dropdown that allows me to access a calendar and select any day. By default, the date should be set to today.
-   - Choose a domain from a dropdown menu (work, personal, global etc.) or add a new one.
-   - Describe the event of each record. This will help to record the details of my activities.
-   - Select a sentiment, to record how I feel about the event. The options should be positive, negative, worried, delighted, or I could add a new one.
-   - View all the records for a selected day. The records should be presented in a table format, with icons and colors indicating the sentiment.
-   - I want to be able to delete a record from the table.
 
-2. Self-Development: As a user, I want to:
-   - Add records with a specific date.
-   - Choose a domain from a dropdown menu (coding, training, blogs etc.) or add a new one.
-   - Choose a topic for each domain from a dropdown menu or add a new one.
-   - Record the time spent on an event from a dropdown menu with increments of 15 minutes, up to 2 hours.
-   - Describe the event in each record.
-   - View all the records for a selected day in a table format.
-   - I want to be able to delete a record from the table.
+==== High-Level Tech Design ====
 
-3. Summary: As a user, I want to:
-   - View a weekly summary that contains data from the Journal and Self-Development sections, to have an overview of my progress.
-   - See how much time I've spent on each topic in the Self-Development section, displayed in a chronological timeline.
+1. **Root Directory (/)**:
+- app.py: This file will contain the main logic for the Streamlit application and will be responsible for rendering all screens, handling input, and querying the database.
+- model.py: This file will contain the models or classes for each table in the database, such as Journal, SelfDevelopment, Sentiment, etc.
+- config.py: This file will store all the configuration variables of the app.
+- requirements.txt: This file will include the dependencies for the project.
 
-4. Configuration: As a user, I want to:
-   - Set up parameters for the application.
-   - Add new sentiments, with associated icons and colors, to customize how my records are presented visually.
+2. **Subdirectory for Database (/db)**:
+- schema.sql: This file will contain the create statements for each table in the database.
+- db_handler.py: This python script will manage all the interactions with the SQLite database, including creating connections, executing queries, and handling results.
 
-For the best user experience, we'll ensure the application is designed to be intuitive and user-friendly, with a clean, modern look. All entries in the Journal and Self-Development sections will be easy to add, view, and delete. The Summary section will provide a visual and informative overview of the user's week, and the Configuration section will allow for customization of sentiments.
+==== Database Structure ====
 
-In terms of business requirements, this application will be designed as a POC, so no authentication, user management, or logging system is needed at this stage. As we develop the product, we will gather feedback and make iterations to improve its functionality and user experience. 
+1. **Journal Table**:
+CREATE TABLE Journal(
+    id INTEGER PRIMARY KEY,
+    date DATE,
+    domain VARCHAR(255),
+    sentiment_id INTEGER,
+    text VARCHAR(255),
+    FOREIGN KEY (sentiment_id) REFERENCES Sentiments(id)
+);
 
-The user journey would involve them regularly adding entries to the Journal and Self-Development sections, tracking their progress throughout the week, adjusting their sentiments in the Configuration whenever necessary, and reviewing their weekly progress in the Summary section. Different use cases would include using the app to track personal or work activities, monitor their self-development, and reviewing their week to see their overall progress.
-=== Response 
+2. **SelfDevelopment Table**:
+CREATE TABLE SelfDevelopment(
+    id INTEGER PRIMARY KEY,
+    date DATE,
+    domain VARCHAR(255),
+    topic VARCHAR(255),
+    time_spent INTEGER
+);
 
+3. **Sentiment Table**:
+CREATE TABLE Sentiments(
+    id INTEGER PRIMARY KEY,
+    sentiment_type VARCHAR(255),
+    color VARCHAR(7) -- color codes in the format of #FFFFFF
+);
+
+==== User Stories ====
+
+**US1: User wants to create a new journal entry**
+- User selects the Journal tab in the application.
+- User selects the desired date from the calendar.
+- User selects or inputs a domain (work, personal, global).
+- User selects a sentiment that describes their current state of mind.
+- User inputs the description of the day in a textbox and submits.
+
+**US2: User wants to add a new self-development activity**
+- User selects the Self-Development tab in the application.
+- User selects the desired date from the calendar.
+- User selects or inputs a domain (coding, training).
+- User inputs the specific activity in the Topic field.
+- User inputs the duration spent on the activity in the Time Entry field and submits.
+
+**US3: User wants to view the summary of the week**
+- User selects the Summary tab in the application.
+- User views the total time invested in each self-development topic and a summary of their journal entries for the week.
+
+**US4: User wants to modify app configurations**
+- User selects the Configuration tab in the application.
+- User adds new sentiments, associates icons with them, and chooses representative colors.
+- User submits the changes and the system updates accordingly.

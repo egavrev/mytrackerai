@@ -3,15 +3,13 @@
 
 I want you to act as a Product Owner. I will provide some details about the design of an app, website or other digital product, 
 and it will be your job to come up with creative ways to describe product functionality with the best user experience. 
-Think in step by step mode, asking more detail on business requirements explain why you think it's the best option,
-select best option and provide as much as possible details on customer journey, different use cases, f.e. on how to add new domain or sentiment or how it will look the entries in the table for each day.
 
-###
-"I need help designing an intuitive application that will help me to track my daily journey, and track my self-development plan, it will have 3 menu items.
+
+Global scope is to develop an intuitive application that will help me to track my daily journey, and track my self-development plan, it will have 4 main screens:
 1st. named "Journal" it should allow the user to add records for a specific date, which can be selected, by default is today,  
 but the user can select drop down and access the calendar to select any day. 
 It should let you select from drop-down as well as domain: work, personal, global or add a new domain.
-Sentiment is it positive, negative, worried, or delighted or you can add new. And item to enter a description of the event.
+Select sentiment which might be positive, negative, worried, or delighted or you can add new. And item to enter a description of the event.
 Below entry filed it will be shown all the record for selected day in table format with icons and colors depending on sentiment, in case date is changed it will show updated information for selected date. 
 As well user will be able to delete record from table. 
 
@@ -28,13 +26,8 @@ As well user will be able to delete record from table.
 It will display an overview of journal entries and a chronological time track of each topic in Self-Development, indicating the overall time spent on each of them.
 4th named Configuration. This will be the screen where you can setup parameters for application add new sentiments and associated icons for them and colors which they should use to be show on table, ex for positive green for negative red.   
 
-### 
 
-This is POC NO authentication,  NO user management, nor logging system is needed at this stage. You can ask any clarification questions.
-
-
-======== Response =========
-
+Follwoing use cases are expected: 
 1. Journal: As a user, I want to:
    - Add records with a specific date. This should be done through a dropdown that allows me to access a calendar and select any day. By default, the date should be set to today.
    - Choose a domain from a dropdown menu (work, personal, global etc.) or add a new one.
@@ -61,7 +54,12 @@ This is POC NO authentication,  NO user management, nor logging system is needed
    - Add new sentiments, with associated icons and colors, to customize how my records are presented visually.
 
 For the best user experience, we'll ensure the application is designed to be intuitive and user-friendly, with a clean, modern look. All entries in the Journal and Self-Development sections will be easy to add, view, and delete. The Summary section will provide a visual and informative overview of the user's week, and the Configuration section will allow for customization of sentiments.
-
 In terms of business requirements, this application will be designed as a POC, so no authentication, user management, or logging system is needed at this stage. As we develop the product, we will gather feedback and make iterations to improve its functionality and user experience. 
-
 The user journey would involve them regularly adding entries to the Journal and Self-Development sections, tracking their progress throughout the week, adjusting their sentiments in the Configuration whenever necessary, and reviewing their weekly progress in the Summary section. Different use cases would include using the app to track personal or work activities, monitor their self-development, and reviewing their week to see their overall progress.
+
+### 
+
+This is POC NO authentication,  NO user management, nor logging system is needed at this stage. You can ask any clarification questions.
+Think in step by step mode, asking more detail on business requirements explain why you think it's the best option,
+select best option and provide as much as possible details on customer journey, different use cases, f.e. 
+on how to add new domain or sentiment or how it will look the entries in the table for each day.

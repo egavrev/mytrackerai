@@ -1,62 +1,152 @@
 
-Forget all what you did before, now you are Python Developer, as a Python developer with expertise in working with databases, you are asked to below high-level application requirement into actual Python code for each file listed in Application Folder Structure and develop each Use case from Definition of Use Cases. 
+Please acknowledge by YES or NO, that you have copied following entry data, you can ask any clarification questions and need to think in step by step mode.
+: 
+
+Global scope is to develop an intuitive application that will help me to track my daily journey, and track my self-development plan, it will have 4 main screens:
+1st. named "Journal" it should allow the user to add records for a specific date, which can be selected, by default is today,  
+but the user can select drop down and access the calendar to select any day. 
+It should let you select from drop-down as well as domain: work, personal, global or add a new domain.
+Select sentiment which might be positive, negative, worried, or delighted or you can add new. And item to enter a description of the event.
+Below entry filed it will be shown all the record for selected day in table format with icons and colors depending on sentiment, in case date is changed it will show updated information for selected date. 
+As well user will be able to delete record from table. 
+
+2nd named "Self Development" It should allow for user to add records for a specific date, which can be selected, by default as today, 
+but the user can select drop down and access the calendar to select any day. 
+It should let you select from the drop-down a domain: coding, training, blogs, or add a new domain. 
+Topic for each domain which might be open source, pet project for coding, for training Coursera or podcast. 
+Item to select how much time was spent on a specific event from drop-down which is from 15 min to 2 hours with an increment of 15 minutes. 
+And item to enter a description of the event.
+Below entry filed it will be shown all the record for selected day in table format with  depending on duration, in case date is changed it will show updated information for selected date.
+As well user will be able to delete record from table.
+
+3rd named Summary. This will be the dashboard that displays a weekly summary gathering data from the Journal and Self-Development sections. 
+It will display an overview of journal entries and a chronological time track of each topic in Self-Development, indicating the overall time spent on each of them.
+4th named Configuration. This will be the screen where you can setup parameters for application add new sentiments and associated icons for them and colors which they should use to be show on table, ex for positive green for negative red.   
 
 
-==== Tech Design ====
+Follwoing use cases are expected: 
+1. Journal: As a user, I want to:
+   - Add records with a specific date. This should be done through a dropdown that allows me to access a calendar and select any day. By default, the date should be set to today.
+   - Choose a domain from a dropdown menu (work, personal, global etc.) or add a new one.
+   - Describe the event of each record. This will help to record the details of my activities.
+   - Select a sentiment, to record how I feel about the event. The options should be positive, negative, worried, delighted, or I could add a new one.
+   - View all the records for a selected day. The records should be presented in a table format, with icons and colors indicating the sentiment.
+   - I want to be able to delete a record from the table.
 
-Application Structure:
-1. src
-   - app.py (Main Streamlit application script)
-   - config.py (Holds application parameters)
-   - db.py (Handles database connection and SQL queries)
-   - models.py (Defines data models for journal and self-development)
-   - views.py (Handles Streamlit UI components)
-   - utils.py (Utility functions)
-2. static
-   - images (Holds images for sentiments)
-3. db (Contains SQLite database file)
-   - db.sqlite
-4. README.md
-5. requirements.txt
+2. Self-Development: As a user, I want to:
+   - Add records with a specific date.
+   - Choose a domain from a dropdown menu (coding, training, blogs etc.) or add a new one.
+   - Choose a topic for each domain from a dropdown menu or add a new one.
+   - Record the time spent on an event from a dropdown menu with increments of 15 minutes, up to 2 hours.
+   - Describe the event in each record.
+   - View all the records for a selected day in a table format.
+   - I want to be able to delete a record from the table.
 
-Details:
-1. app.py: Main Streamlit application script. This script runs the entire application, integrating functions from `views.py`, `db.py` and `models.py`.
-2. config.py: Holds application parameters such as dropdown options, default values, and allowed increments for time spent.
-3. db.py: Responsible for handling database connection and executing SQL queries to interact with the SQLite database. This includes functions for adding, deleting and fetching records.
-4. models.py: Contains data models for 'Journal' and 'Self-Development'. These are Python classes that define the fields and their types, for each record in these two sections.
-5. views.py: Manages Streamlit UI components. This script defines functions for each section of the application (Journal, Self-Development, Summary, and Configuration) that dictate how the UI looks and reacts to user interaction.
-6. utils.py: Contains utility functions such as sentiment-color mapping, date conversions, etc.
-7. static/images: Holds images for different sentiments which will be used in the 'Journal' section's UI.
-8. db/db.sqlite: SQLite database that will store all records added in the 'Journal' and 'Self-Development' sections.
-9. README.md: Documentation about the project, how to setup and run it.
-10. requirements.txt: Lists all Python library dependencies which are necessary to run the application.
+3. Summary: As a user, I want to:
+   - View a weekly summary that contains data from the Journal and Self-Development sections, to have an overview of my progress.
+   - See how much time I've spent on each topic in the Self-Development section, displayed in a chronological timeline.
 
-Database Structure:
-1. journal (date, domain, description, sentiment)
-2. self_dev (date, domain, topic, time_spent, description)
-3. sentiments (sentiment, color, icon)
+4. Configuration: As a user, I want to:
+   - Set up parameters for the application.
+   - Add new sentiments, with associated icons and colors, to customize how my records are presented visually.
 
-User Stories:
-1. Journal:
-   - User opens application, navigates to 'Journal' section.
-   - User can choose a date from the calendar dropdown (default is Today's date).
-   - User can choose a domain or add a new one.
-   - User can write a description of the event.
-   - User can select a sentiment or add a new one.
-   - User can view all records for a selected day in a table.
-   - User can delete a record by clicking on the 'delete' button in the record row in the table.
+For the best user experience, we'll ensure the application is designed to be intuitive and user-friendly, with a clean, modern look. All entries in the Journal and Self-Development sections will be easy to add, view, and delete. The Summary section will provide a visual and informative overview of the user's week, and the Configuration section will allow for customization of sentiments.
+In terms of business requirements, this application will be designed as a POC, so no authentication, user management, or logging system is needed at this stage. As we develop the product, we will gather feedback and make iterations to improve its functionality and user experience. 
+The user journey would involve them regularly adding entries to the Journal and Self-Development sections, tracking their progress throughout the week, adjusting their sentiments in the Configuration whenever necessary, and reviewing their weekly progress in the Summary section. Different use cases would include using the app to track personal or work activities, monitor their self-development, and reviewing their week to see their overall progress.
 
-2. Self-Development:
-   - User navigates to 'Self-Development' section.
-   - User can choose a date, domain, topic, time spent and add event description.
-   - User can view all records for a selected day in a table.
-   - User can delete a record.
+=== acknowledge the rules ===
+This is POC: 
+NO authentication,  
+NO user management, 
+NO logging system  
+NO complex architecture is needed 
+NO HTML CSS or static entry at this stage. 
+USE Python and Streamlit library 
+USE SQLight.
 
-3. Summary:
-   - User navigates to 'Summary' section.
-   - User can view a weekly summary of Journal and Self-Development data.
-   - User can see a chronological timeline of time spent on activities in the Self-Development section.
+### 
 
-4. Configuration:
-   - User navigates to 'Configuration' section.
-   - User can add new sentiment with associated color and icon in this section.
+
+
+
+Now you are Python Developer, as a Python developer with expertise in working with databases
+Provide Application Files structure with detailed description of each file.
+
+Now you are Python Developer, as a Python developer with expertise in working with databases
+Database Initialization db_init.py scripts to run in SQLight to create needed tables with initial entires for sentiments, domains and topics.
+
+== File by File content with feedback ==
+
+
+
+
+==== High-Level Tech Design ====
+
+1. **Root Directory (/)**:
+- app.py: This file will contain the main logic for the Streamlit application and will be responsible for rendering all screens, handling input, and querying the database.
+- model.py: This file will contain the models or classes for each table in the database, such as Journal, SelfDevelopment, Sentiment, etc.
+- config.py: This file will store all the configuration variables of the app.
+- requirements.txt: This file will include the dependencies for the project.
+
+2. **Subdirectory for Database (/db)**:
+- schema.sql: This file will contain the create statements for each table in the database.
+- db_handler.py: This python script will manage all the interactions with the SQLite database, including creating connections, executing queries, and handling results.
+
+==== Database Structure ====
+
+1. **Journal Table**:
+CREATE TABLE Journal(
+    id INTEGER PRIMARY KEY,
+    date DATE,
+    domain VARCHAR(255),
+    sentiment_id INTEGER,
+    text VARCHAR(255),
+    FOREIGN KEY (sentiment_id) REFERENCES Sentiments(id)
+);
+
+2. **SelfDevelopment Table**:
+CREATE TABLE SelfDevelopment(
+    id INTEGER PRIMARY KEY,
+    date DATE,
+    domain VARCHAR(255),
+    topic VARCHAR(255),
+    time_spent INTEGER
+);
+
+3. **Sentiment Table**:
+CREATE TABLE Sentiments(
+    id INTEGER PRIMARY KEY,
+    sentiment_type VARCHAR(255),
+    color VARCHAR(7) -- color codes in the format of #FFFFFF
+);
+
+==== User Stories ====
+
+**US1: User wants to create a new journal entry**
+- User selects the Journal tab in the application.
+- User selects the desired date from the calendar.
+- User selects or inputs a domain (work, personal, global).
+- User selects a sentiment that describes their current state of mind.
+- User inputs the description of the day in a textbox and submits.
+
+**US2: User wants to add a new self-development activity**
+- User selects the Self-Development tab in the application.
+- User selects the desired date from the calendar.
+- User selects or inputs a domain (coding, training).
+- User inputs the specific activity in the Topic field.
+- User inputs the duration spent on the activity in the Time Entry field and submits.
+
+**US3: User wants to view the summary of the week**
+- User selects the Summary tab in the application.
+- User views the total time invested in each self-development topic and a summary of their journal entries for the week.
+
+**US4: User wants to modify app configurations**
+- User selects the Configuration tab in the application.
+- User adds new sentiments, associates icons with them, and chooses representative colors.
+- User submits the changes and the system updates accordingly.
+
+start with full content of following files :
+- app.py: This file will contain the main logic for the Streamlit application and will be responsible for rendering all screens, handling input, and querying the database.
+- model.py: This file will contain the models or classes for each table in the database, such as Journal, SelfDevelopment, Sentiment, etc.
+- config.py: This file will store all the configuration variables of the app.
+- requirements.txt: This file will include the dependencies for the project.

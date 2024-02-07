@@ -1,58 +1,70 @@
 import sqlite3
-from sqlite3 import Error
 
-def create_connection():
-    conn = None;
-    try:
-        conn = sqlite3.connect('database/app.db')       
-        print(f'successful connection with sqlite version {sqlite3.version}')
-    except Error as e:
-        print(e)
-    return conn
+def create_database():
+    conn = sqlite3.connect('sqlite.db')
+    c = conn.cursor()
 
-def close_connection(conn):
-    conn.close()
-    print('connection closed')
+    # Create the tables
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS journal(
+            entry_id INTEGER PRIMARY KEY, 
+            date TEXT, 
+            domain TEXT, 
+            sentiment TEXT, 
+            description TEXT
+        )
+    ''')
 
-def create_tables(conn):
-    cursor = conn.cursor()
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS self_dev(
+            entry_id INTEGER PRIMARY KEY, 
+            date TEXT, 
+            domain TEXT, 
+            topic TEXT, 
+            duration TEXT, 
+            description TEXT
+        )
+    ''')
 
-    cursor.execute("""
-    CREATE TABLE Journal(
-        ID INTEGER PRIMARY KEY AUTOINCREMENT,
-        Date DATE NOT NULL,
-        Domain TEXT NOT NULL,
-        Sentiment TEXT NOT NULL,
-        Description TEXT NOT NULL
-    )
-    """)
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS sentiments(
+            sentiment_id INTEGER PRIMARY KEY, 
+            sentiment TEXT, 
+            icon TEXT, 
+            color TEXT
+        )
+    ''')
 
-    cursor.execute("""
-    CREATE TABLE SelfDevelopment(
-        ID INTEGER PRIMARY KEY AUTOINCREMENT,
-        Date DATE NOT NULL,
-        Domain TEXT NOT NULL,
-        Topic TEXT NOT NULL,
-        TimeSpent INTEGER NOT NULL,
-        Description TEXT NOT NULL
-    )
-    """)
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS domains(
+            domain_id INTEGER PRIMARY KEY, 
+            domain TEXT
+        )
+    ''')
 
-    cursor.execute("""
-    CREATE TABLE Configuration(
-        ID INTEGER PRIMARY KEY AUTOINCREMENT,
-        Sentiment TEXT NOT NULL,
-        Icon TEXT NOT NULL,
-        Color TEXT NOT NULL
-    )
-    """)
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS topics(
+            topic_id INTEGER PRIMARY KEY, 
+            domain_id INTEGER, 
+            topic TEXT,
+            FOREIGN KEY(domain_id) REFERENCES domains(domain_id)
+        )
+    ''')
 
+    # Insert initial entries for sentiments, domains, and topics
+    sentiments = [('Positive', 'smile', 'green'), ('Negative', 'frown', 'red'),
+                  ('Worried', 'frown', 'yellow'), ('Delighted', 'smile', 'blue')]
+    c.executemany('INSERT INTO sentiments(sentiment, icon, color) VALUES (?, ?, ?)', sentiments)
+
+    domains = [('Work',), ('Personal',), ('Global',)]
+    c.executemany('INSERT INTO domains(domain) VALUES (?)', domains)
+
+    topics = [('Coding', 'Open Source'), ('Training', 'Coursera'), ('Blogs', 'Medium')]
+    c.executemany('INSERT INTO topics (domain_id, topic) VALUES (?, ?)', topics)
+
+    # Commit changes and close connection
     conn.commit()
+    conn.close()
 
-def main():
-    conn = create_connection()
-    create_tables(conn)
-    close_connection(conn)
-
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    create_database()
