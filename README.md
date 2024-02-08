@@ -28,12 +28,13 @@ To install MyTrackerAI, follow these steps:
 
 #### Version 0.1
 Try to rebuild it using Code Interpretor and assistants. 
-- [ ] Issues with DB not holding session/ try with sqlachimy.
+- [X] Issues with DB not holding session - object created in same thread/ try with sqlachimy.
 - [ ] Unify add/view/delete on same page.
-- [ ] Make it clear details
+- [ ] Load all types from DB make reference in DB, like topic, domains etc
 
 #### Version 0.2
 
 - [ ] add all data to vector for embedings using sqlite-vss
 - [ ] Updation in the summary dashboard for an elaborate overview of progress.
 - [ ] In reports add categories to group and summarize my items.
+

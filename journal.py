@@ -1,9 +1,15 @@
+from sqlalchemy import create_engine, Table, MetaData
+from sqlalchemy.orm import scoped_session, sessionmaker
 import streamlit as st
-import sqlite3
 
-# Establish a SQLite connection
-conn = sqlite3.connect('sqlite.db')
-c = conn.cursor()
+# Create engine and scoped session
+engine = create_engine('sqlite:///sqlite.db')
+session_factory = sessionmaker(bind=engine)
+Session = scoped_session(session_factory)
+
+# Reflect tables
+metadata = MetaData()
+journal = Table('journal', metadata, autoload_with=engine)
 
 def add_journal_entry():
     st.subheader("Add a new journal entry")
@@ -13,52 +19,30 @@ def add_journal_entry():
     event_desc = st.text_area("Event Description")
     add_button = st.button("Add Journal Entry")
     if add_button:
-        # Create a new connection
-        conn = sqlite3.connect('sqlite.db')
-        c = conn.cursor()
-
-        # Use the connection
-        c.execute('INSERT INTO journal(date, domain, sentiment, description) VALUES (?, ?, ?, ?)',
-                  (date, domain, sentiment, event_desc))
-
-        # Commit the changes and close the connection
-        conn.commit()
-        conn.close()
-
+        session = Session()
+        session.execute(journal.insert().values(date=date, domain=domain, sentiment=sentiment, description=event_desc))
+        session.commit()
+        Session.remove()
         st.success("Successfully added a new journal entry")
 
 def view_journal_entries():
     st.subheader("View journal entries")
-
-    # Create a new connection
-    conn = sqlite3.connect('sqlite.db')
-    c = conn.cursor()
-
-    # Use the connection
-    result = c.execute('SELECT * FROM journal ORDER BY date DESC').fetchall()
+    session = Session()
+    result = session.execute(journal.select().order_by(journal.c.date.desc())).fetchall()
     for i in result:
         st.write(i)
-
-    # Close the connection
-    conn.close()
+    Session.remove()
 
 def delete_journal_entry():
     st.subheader("Delete a journal entry")
-
-    # Create a new connection
-    conn = sqlite3.connect('sqlite.db')
-    c = conn.cursor()
-
-    # Use the connection
-    entry_list = [i[0] for i in c.execute('SELECT entry_id FROM journal')]
+    session = Session()
+    entry_list = [i[0] for i in session.execute(journal.select())]
     selected_entry = st.selectbox("Select entry", entry_list)
     if st.button("Delete"):
-        c.execute('DELETE FROM journal WHERE entry_id = ?', (selected_entry,))
-        conn.commit() 
+        session.execute(journal.delete().where(journal.c.entry_id == selected_entry))
+        session.commit()
         st.success("Entry deleted")
-
-    # Close the connection
-    conn.close()
+    Session.remove()
 
 def app():
     st.title("Journal")

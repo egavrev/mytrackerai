@@ -1,20 +1,31 @@
-import streamlit as st
-import sqlite3
+from sqlalchemy import create_engine, Table, MetaData
+from sqlalchemy.orm import scoped_session, sessionmaker
 from datetime import datetime, timedelta
+import streamlit as st
 
-# Establish a SQLite connection
-conn = sqlite3.connect('sqlite.db')
-c = conn.cursor()
+# Create engine and scoped session
+engine = create_engine('sqlite:///sqlite.db')
+session_factory = sessionmaker(bind=engine)
+Session = scoped_session(session_factory)
+
+# Reflect tables
+metadata = MetaData()
+journal = Table('journal', metadata, autoload_with=engine)
+self_dev = Table('self_dev', metadata, autoload_with=engine)
 
 def get_weekly_journal():
     # get date of 7 days ago
     week_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
-    result = c.execute('SELECT * FROM journal WHERE date >= ?', (week_ago,)).fetchall()
+    session = Session()
+    result = session.execute(journal.select().where(journal.c.date >= week_ago)).fetchall()
+    Session.remove()
     return result
 
 def get_weekly_self_dev():
     week_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
-    result = c.execute('SELECT * FROM self_dev WHERE date >= ?', (week_ago,)).fetchall()
+    session = Session()
+    result = session.execute(self_dev.select().where(self_dev.c.date >= week_ago)).fetchall()
+    Session.remove()
     return result
 
 def app():
