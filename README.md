@@ -32,8 +32,10 @@ Try to rebuild it using Code Interpretor and assistants.
 - [X] Unify add/view/delete on same page - Journal & Self Development. 
 - [X] Load all types from DB make reference in DB, like topic, domains etc
 - [ ] Clean all topics/domains/sensations. 
-- [ ] show tables entries with icons and in sentiment colors. 
+- [ ] Configuration add CRUD
+- [ ] show tables entries with icons and in sentiment colors - https://streamlit-emoji-shortcodes-streamlit-app-gwckff.streamlit.app/
 - [ ] On changing date refresh all for week in which this date is located. 
+
 
 #### Version 0.2
 

@@ -17,8 +17,7 @@ topics = Table('topics', metadata, autoload_with=engine)
 domains = Table('domains', metadata, autoload_with=engine)
 
 def add_self_dev_entry():
-    st.subheader("Add a new self development entry")
-    cols = st.columns([1, 1, 1])
+    cols = st.columns([1, 1, 1, 2])
     date = cols[0].date_input("Date")
     session = Session()
     domain_list = session.execute(topics.select()).fetchall()
@@ -32,7 +31,7 @@ def add_self_dev_entry():
     topic_dict = {i.topic: i.topic_id for i in topic_list}
     topic = cols[2].selectbox("Topic", list(topic_dict.keys()))
 
-    duration = st.select_slider("Duration", options=range(15, 121, 15))
+    duration = cols[3].select_slider("Duration", options=range(15, 121, 15))
     event_desc = st.text_area("Event Description")
     add_button = st.button("Add Self Development Entry")
     if add_button:
@@ -43,7 +42,7 @@ def add_self_dev_entry():
         st.success("Successfully added a new self development entry")
 
 def view_self_dev_entries():
-    st.subheader("View self development entries")
+
     session = Session()
     result = session.execute(self_dev.select().order_by(self_dev.c.date.desc())).fetchall()
     Session.remove()
@@ -60,11 +59,14 @@ def app():
     today = datetime.today()
     monday = today + relativedelta(weekday=MO(-1))
     sunday = today + relativedelta(weekday=SU(+1))
-    st.header(f"Self Dev for : {monday.strftime('%Y-%m-%d')} to {sunday.strftime('%Y-%m-%d')}")
+    st.header(f"Self development ")
+    st.subheader(f" :calendar: {monday.strftime('%Y-%m-%d')} to {sunday.strftime('%Y-%m-%d')}")
     add_self_dev_entry()
+    st.markdown("""---""")
+
     all_entries = view_self_dev_entries()
     for entry in all_entries:
-        cols = st.columns([1, 1, 1, 1, 1, 1, 1, 1])
+        cols = st.columns([1, 1, 1, 1, 1, 1])
         cols[0].write(entry.date)
         cols[1].write(entry.domain)
         cols[2].write(entry.topic)

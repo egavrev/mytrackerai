@@ -16,7 +16,6 @@ sentiments = Table('sentiments', metadata, autoload_with=engine)
 topics = Table('topics', metadata, autoload_with=engine)
 
 def add_journal_entry():
-    st.subheader("Add a new journal entry")
 
     # Create columns for date, domain, and sentiment
     cols = st.columns([1, 1, 1])
@@ -48,7 +47,6 @@ def add_journal_entry():
         st.success("Successfully added a new journal entry")
 
 def view_journal_entries():
-    st.subheader("View journal entries")
     session = Session()
     result = session.execute(journal.select().order_by(journal.c.date.desc())).fetchall()
     Session.remove()
@@ -65,9 +63,10 @@ def app():
     today = datetime.today()
     monday = today + relativedelta(weekday=MO(-1))
     sunday = today + relativedelta(weekday=SU(+1))
-    st.header(f"Current week: {monday.strftime('%Y-%m-%d')} to {sunday.strftime('%Y-%m-%d')}")
-
+    st.header(f"Journal entries")
+    st.subheader(f" :calendar: {monday.strftime('%Y-%m-%d')} to {sunday.strftime('%Y-%m-%d')}")
     add_journal_entry()
+    st.markdown("""---""")
     entries = view_journal_entries()
     if entries:
         for entry in entries:
