@@ -1,6 +1,8 @@
 from sqlalchemy import create_engine, Table, MetaData
 from sqlalchemy.orm import scoped_session, sessionmaker
 import streamlit as st
+from datetime import datetime
+from dateutil.relativedelta import relativedelta, MO, SU
 
 # Create engine and scoped session
 engine = create_engine('sqlite:///sqlite.db')
@@ -10,17 +12,37 @@ Session = scoped_session(session_factory)
 # Reflect tables
 metadata = MetaData()
 journal = Table('journal', metadata, autoload_with=engine)
+sentiments = Table('sentiments', metadata, autoload_with=engine)
+topics = Table('topics', metadata, autoload_with=engine)
 
 def add_journal_entry():
     st.subheader("Add a new journal entry")
-    date = st.date_input("Date")
-    domain = st.text_input("Domain")
-    sentiment = st.text_input("Sentiment")
+
+    # Create columns for date, domain, and sentiment
+    cols = st.columns([1, 1, 1])
+
+    # Date input
+    date = cols[0].date_input("Date")
+
+    # Load domains from the topics table
+    session = Session()
+    domain_list = session.execute(topics.select()).fetchall()
+    Session.remove()
+    domain_dict = {i.topic: i.topic_id for i in domain_list}
+    domain = cols[1].selectbox("Domain", list(domain_dict.keys()))
+
+    # Load sentiments from the sentiments table
+    session = Session()
+    sentiment_list = session.execute(sentiments.select()).fetchall()
+    Session.remove()
+    sentiment_dict = {i.sentiment: i.sentiment_id for i in sentiment_list}
+    sentiment = cols[2].selectbox("Sentiment", list(sentiment_dict.keys()))
+
     event_desc = st.text_area("Event Description")
     add_button = st.button("Add Journal Entry")
     if add_button:
         session = Session()
-        session.execute(journal.insert().values(date=date, domain=domain, sentiment=sentiment, description=event_desc))
+        session.execute(journal.insert().values(date=date, domain=domain_dict[domain], sentiment=sentiment_dict[sentiment], description=event_desc))
         session.commit()
         Session.remove()
         st.success("Successfully added a new journal entry")
@@ -29,28 +51,30 @@ def view_journal_entries():
     st.subheader("View journal entries")
     session = Session()
     result = session.execute(journal.select().order_by(journal.c.date.desc())).fetchall()
-    for i in result:
-        st.write(i)
     Session.remove()
+    return result
 
-def delete_journal_entry():
-    st.subheader("Delete a journal entry")
+def delete_journal_entry(entry_id):
     session = Session()
-    entry_list = [i[0] for i in session.execute(journal.select())]
-    selected_entry = st.selectbox("Select entry", entry_list)
-    if st.button("Delete"):
-        session.execute(journal.delete().where(journal.c.entry_id == selected_entry))
-        session.commit()
-        st.success("Entry deleted")
+    session.execute(journal.delete().where(journal.c.entry_id == entry_id))
+    session.commit()
     Session.remove()
 
 def app():
-    st.title("Journal")
-    menu = ["Add", "View", "Delete"]
-    choice = st.sidebar.selectbox("Menu", menu)
-    if choice == "Add":
-        add_journal_entry()
-    elif choice == "View":
-        view_journal_entries()
-    elif choice == "Delete":
-        delete_journal_entry()
+    #string to show current week date from monday to sunday
+    today = datetime.today()
+    monday = today + relativedelta(weekday=MO(-1))
+    sunday = today + relativedelta(weekday=SU(+1))
+    st.header(f"Current week: {monday.strftime('%Y-%m-%d')} to {sunday.strftime('%Y-%m-%d')}")
+
+    add_journal_entry()
+    entries = view_journal_entries()
+    if entries:
+        for entry in entries:
+            cols = st.columns([1, 1, 1, 1, 1])
+            cols[0].write(entry.date)
+            cols[1].write(entry.domain)
+            cols[2].write(entry.sentiment)
+            cols[3].write(entry.description)
+            if cols[4].button("Delete", key=entry.entry_id):
+                delete_journal_entry(entry.entry_id)

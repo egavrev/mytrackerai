@@ -28,9 +28,10 @@ To install MyTrackerAI, follow these steps:
 
 #### Version 0.1
 Try to rebuild it using Code Interpretor and assistants. 
-- [X] Issues with DB not holding session - object created in same thread/ try with sqlachimy.
-- [ ] Unify add/view/delete on same page.
+- [X] Issues with DB not holding session - object created in same thread/ try with SQLAlchimy
+- [ ] Unify add/view/delete on same page - Journal & Self Development.
 - [ ] Load all types from DB make reference in DB, like topic, domains etc
+- [ ] show tables entries with icons and in sentiment colors. 
 
 #### Version 0.2
 
