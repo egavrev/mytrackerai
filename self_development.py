@@ -17,7 +17,7 @@ topics = Table('topics', metadata, autoload_with=engine)
 domains = Table('domains', metadata, autoload_with=engine)
 
 def add_self_dev_entry():
-    cols = st.columns([1, 1, 1, 2])
+    cols = st.columns([0.70, 1, 1, 2])
     date = cols[0].date_input("Date")
     session = Session()
     domain_list = session.execute(topics.select()).fetchall()

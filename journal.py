@@ -18,10 +18,10 @@ topics = Table('topics', metadata, autoload_with=engine)
 def add_journal_entry():
 
     # Create columns for date, domain, and sentiment
-    cols = st.columns([1, 1, 1])
+    cols = st.columns([0.5, 1, 1])
 
     # Date input
-    date = cols[0].date_input("Date")
+    date = cols[0].date_input("Date",value="today",format="DD-MM-YYYY")
 
     # Load domains from the topics table
     session = Session()

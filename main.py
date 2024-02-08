@@ -5,7 +5,6 @@ import summary
 import configuration
 
 
-
 PAGES = {
     "Journal": journal,
     "Self Development": self_development,
