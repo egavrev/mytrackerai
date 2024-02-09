@@ -37,6 +37,7 @@ Try to rebuild it using Code Interpretor and assistants.
 - [ ] On changing date refresh all for week in which this date is located. 
 - [ ] Add planning for the self development activity.
 - [ ] print your status for weekly activity in case you are reaching targets. 
+- [ ] add for each entry prossibility to add voteings for entry to add more weight to it
 
 
 #### Version 0.2
