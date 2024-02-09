@@ -32,7 +32,7 @@ Try to rebuild it using Code Interpretor and assistants.
 - [X] Unify add/view/delete on same page - Journal & Self Development. 
 - [X] Load all types from DB make reference in DB, like topic, domains etc
 - [X] Clean all topics/domains/sensations. 
-- [ ] Configuration add CRUD
+- [X] Configuration add CRUD
 - [ ] show tables entries with icons and in sentiment colors - https://streamlit-emoji-shortcodes-streamlit-app-gwckff.streamlit.app/
 - [ ] On changing date refresh all for week in which this date is located. 
 - [ ] Add planning for the self development activity.
