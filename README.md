@@ -35,6 +35,8 @@ Try to rebuild it using Code Interpretor and assistants.
 - [ ] Configuration add CRUD
 - [ ] show tables entries with icons and in sentiment colors - https://streamlit-emoji-shortcodes-streamlit-app-gwckff.streamlit.app/
 - [ ] On changing date refresh all for week in which this date is located. 
+- [ ] Add planning for the self development activity.
+- [ ] print your status for weekly activity in case you are reaching targets. 
 
 
 #### Version 0.2
@@ -42,4 +44,5 @@ Try to rebuild it using Code Interpretor and assistants.
 - [ ] add all data to vector for embedings using sqlite-vss
 - [ ] Updation in the summary dashboard for an elaborate overview of progress.
 - [ ] In reports add categories to group and summarize my items.
-
+- [ ] Connect to LLM with options to summarize my activity for a week.
+- [ ] Think of a list of prompts tow extract match of info from your data.
