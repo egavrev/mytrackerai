@@ -14,15 +14,15 @@ Session = scoped_session(session_factory)
 metadata = MetaData()
 self_dev = Table('self_dev', metadata, autoload_with=engine)
 topics = Table('topics', metadata, autoload_with=engine)
-domains = Table('domains', metadata, autoload_with=engine)
+domains_self_dev = Table('domains_self_dev', metadata, autoload_with=engine)
 
 def add_self_dev_entry():
     cols = st.columns([0.70, 1, 1, 2])
     date = cols[0].date_input("Date")
     session = Session()
-    domain_list = session.execute(topics.select()).fetchall()
+    domain_list = session.execute(domains_self_dev.select()).fetchall()
     Session.remove()
-    domain_dict = {i.topic: i.topic_id for i in domain_list}
+    domain_dict = {i.domain: i.domain_self_dev_id for i in domain_list}
     domain = cols[1].selectbox("Domain", list(domain_dict.keys()))
 
     session = Session()

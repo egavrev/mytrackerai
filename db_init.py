@@ -9,9 +9,11 @@ def create_database():
         CREATE TABLE IF NOT EXISTS journal(
             entry_id INTEGER PRIMARY KEY, 
             date TEXT, 
-            domain TEXT, 
-            sentiment TEXT, 
-            description TEXT
+            domain_id INTEGER, 
+            sentiment_id INTEGER, 
+            description TEXT,
+            FOREIGN KEY(domain_id) REFERENCES domains(domain_id)
+            FOREIGN KEY(sentiment_id) REFERENCES sentiments(sentiment_id)
         )
     ''')
 
@@ -19,10 +21,12 @@ def create_database():
         CREATE TABLE IF NOT EXISTS self_dev(
             entry_id INTEGER PRIMARY KEY, 
             date TEXT, 
-            domain TEXT, 
-            topic TEXT, 
-            duration TEXT, 
-            description TEXT
+            domain_self_dev_id INTEGER, 
+            topic_id INTEGER, 
+            duration Integer, 
+            description TEXT,
+            FOREIGN KEY(domain_self_dev_id) REFERENCES domains_self_dev(domain_self_dev_id)
+            FOREIGN KEY(topic_id) REFERENCES topics(topic_id)
         )
     ''')
 
@@ -41,26 +45,32 @@ def create_database():
             domain TEXT
         )
     ''')
-
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS domains_self_dev(
+            domain_self_dev_id INTEGER PRIMARY KEY, 
+            domain TEXT
+        )
+    ''')
     c.execute('''
         CREATE TABLE IF NOT EXISTS topics(
             topic_id INTEGER PRIMARY KEY, 
-            domain_id INTEGER, 
-            topic TEXT,
-            FOREIGN KEY(domain_id) REFERENCES domains(domain_id)
+            topic TEXT
         )
     ''')
 
     # Insert initial entries for sentiments, domains, and topics
     sentiments = [('Positive', 'smile', 'green'), ('Negative', 'frown', 'red'),
-                  ('Worried', 'frown', 'yellow'), ('Delighted', 'smile', 'blue')]
+                  ('Worried', 'frown', 'yellow'), ('Delighted', 'smile', 'green'),]
     c.executemany('INSERT INTO sentiments(sentiment, icon, color) VALUES (?, ?, ?)', sentiments)
 
     domains = [('Work',), ('Personal',), ('Global',)]
     c.executemany('INSERT INTO domains(domain) VALUES (?)', domains)
+    
+    domains_self_dev = [('Coding',), ('Learning',), ('Trend view',)]
+    c.executemany('INSERT INTO domains_self_dev(domain) VALUES (?)', domains_self_dev)
 
-    topics = [('Coding', 'Open Source'), ('Training', 'Coursera'), ('Blogs', 'Medium')]
-    c.executemany('INSERT INTO topics (domain_id, topic) VALUES (?, ?)', topics)
+    topics = [('Open Source',), ('Reading',), ('Exercise',), ('Presonal Project',), ('Learning',)]
+    c.executemany('INSERT INTO topics (topic) VALUES (?)', topics)
 
     # Commit changes and close connection
     conn.commit()

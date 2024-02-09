@@ -13,7 +13,7 @@ Session = scoped_session(session_factory)
 metadata = MetaData()
 journal = Table('journal', metadata, autoload_with=engine)
 sentiments = Table('sentiments', metadata, autoload_with=engine)
-topics = Table('topics', metadata, autoload_with=engine)
+domains = Table('domains', metadata, autoload_with=engine)
 
 def add_journal_entry():
 
@@ -25,9 +25,9 @@ def add_journal_entry():
 
     # Load domains from the topics table
     session = Session()
-    domain_list = session.execute(topics.select()).fetchall()
+    domain_list = session.execute(domains.select()).fetchall()
     Session.remove()
-    domain_dict = {i.topic: i.topic_id for i in domain_list}
+    domain_dict = {i.domain: i.domain_id for i in domain_list}
     domain = cols[1].selectbox("Domain", list(domain_dict.keys()))
 
     # Load sentiments from the sentiments table
