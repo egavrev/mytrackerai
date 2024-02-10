@@ -14,29 +14,30 @@ Session = scoped_session(session_factory)
 metadata = MetaData()
 self_dev = Table('self_dev', metadata, autoload_with=engine)
 topics = Table('topics', metadata, autoload_with=engine)
-domains_self_dev = Table('domains_self_dev', metadata, autoload_with=engine)
+
+def list_topics():
+    session = Session()
+    result = session.execute(topics.select()).fetchall()
+    topic_dict = {i.topic_id : i.topic for i in result}
+    Session.remove()
+    return topic_dict
 
 def add_self_dev_entry():
-    cols = st.columns([0.70, 1, 1, 2])
+    cols = st.columns([0.70, 1, 2])
     date = cols[0].date_input("Date")
-    session = Session()
-    domain_list = session.execute(domains_self_dev.select()).fetchall()
-    Session.remove()
-    domain_dict = {i.domain: i.domain_self_dev_id for i in domain_list}
-    domain = cols[1].selectbox("Domain", list(domain_dict.keys()))
 
     session = Session()
     topic_list = session.execute(topics.select()).fetchall()
     Session.remove()
     topic_dict = {i.topic: i.topic_id for i in topic_list}
-    topic = cols[2].selectbox("Topic", list(topic_dict.keys()))
+    topic_id = cols[1].selectbox("Topic", list(topic_dict.keys()))
 
-    duration = cols[3].select_slider("Duration", options=range(15, 121, 15))
+    duration = cols[2].select_slider("Duration", options=range(15, 121, 15))
     event_desc = st.text_area("Event Description")
     add_button = st.button("Add Self Development Entry")
     if add_button:
         session = Session()
-        session.execute(self_dev.insert().values(date=date, domain=domain, topic=topic, duration=duration, description=event_desc))
+        session.execute(self_dev.insert().values(date=date, topic_id=topic_dict[topic_id], duration=duration, description=event_desc))
         session.commit()
         Session.remove()
         st.success("Successfully added a new self development entry")
@@ -63,14 +64,13 @@ def app():
     st.subheader(f" :calendar: {monday.strftime('%Y-%m-%d')} to {sunday.strftime('%Y-%m-%d')}")
     add_self_dev_entry()
     st.markdown("""---""")
-
+    topics = list_topics()
     all_entries = view_self_dev_entries()
     for entry in all_entries:
-        cols = st.columns([1, 1, 1, 1, 1, 1])
+        cols = st.columns([1, 1, 1, 1, 1])
         cols[0].write(entry.date)
-        cols[1].write(entry.domain)
-        cols[2].write(entry.topic)
-        cols[3].write(entry.duration)
-        cols[4].write(entry.description)
-        if cols[5].button("Delete", key=entry.entry_id):
+        cols[1].write(topics[entry.topic_id])
+        cols[2].write(entry.duration)
+        cols[3].write(entry.description)
+        if cols[4].button("Delete", key=entry.entry_id):
             delete_self_dev_entry(entry.entry_id)

@@ -88,11 +88,11 @@ def app():
 
     if entries:
         for entry in entries:
-            cols = st.columns([1, 1, 1, 1, 1])
+            cols = st.columns([0.5, 0.5, 2.5, 0.5],gap="small")
             color = sentiments_list[entry.sentiment_id-1][3]
-            cols[0].markdown(f"<div style='background-color:{color}; padding:10px;'>{entry.date}</div>", unsafe_allow_html=True)
-            cols[1].markdown(f"<div style='background-color:{color}; padding:10px;'>{domains_list[entry.domain_id-1][1]}</div>", unsafe_allow_html=True)
-            cols[2].markdown(f"<div style='background-color:{color}; padding:10px;'>{sentiments_list[entry.sentiment_id-1][2]}</div>", unsafe_allow_html=True)
-            cols[3].markdown(f"<div style='background-color:{color}; padding:10px;'>{entry.description}</div>", unsafe_allow_html=True)
-            if cols[4].button("Delete", key=entry.entry_id):
+            #cols[0].markdown(f"<div style='background-color:{color}; padding:10px;'>{entry.date}</div>", unsafe_allow_html=True)
+            cols[0].markdown(f"<div style='background-color:{color}; padding:10px;'>{domains_list[entry.domain_id-1][1]}</div>", unsafe_allow_html=True)
+            cols[1].markdown(f"<div style='background-color:{color}; padding:10px;'>{sentiments_list[entry.sentiment_id-1][2]}</div>", unsafe_allow_html=True)
+            cols[2].markdown(f"<div style='background-color:{color}; padding:10px;'>{entry.description}</div>", unsafe_allow_html=True)
+            if cols[3].button("Delete", key=entry.entry_id):
                 delete_journal_entry(entry.entry_id)

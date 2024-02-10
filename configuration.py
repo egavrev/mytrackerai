@@ -12,7 +12,6 @@ metadata = MetaData()
 # Reflect additional tables
 sentiments = Table('sentiments', metadata, autoload_with=engine)
 domains = Table('domains', metadata, autoload_with=engine)
-domains_self_dev = Table('domains_self_dev', metadata, autoload_with=engine)
 topics = Table('topics', metadata, autoload_with=engine)
 
 
@@ -84,35 +83,6 @@ def delete_domain(domain_id):
     session.commit()
     Session.remove()
 
-
-def add_domain_self_dev():
-    st.subheader("Add a new domain self dev")
-    domain = st.text_input("Domain Self Dev")
-    add_button = st.button("Add Domain Self Dev")
-    if add_button:
-        session = Session()
-        session.execute(domains_self_dev.insert().values(domain=domain))
-        session.commit()
-        Session.remove()
-
-def view_domains_self_dev():
-    st.subheader("View existing domain self devs")
-    session = Session()
-    entries = session.execute(domains_self_dev.select()).fetchall()
-    if entries:
-        for entry in entries:
-            cols = st.columns([1, 1, 1])
-            cols[0].write(entry.domain_self_dev_id)
-            cols[1].write(entry.domain)
-            if cols[2].button("Delete", key=entry.domain_self_dev_id):
-                delete_domain_self_dev(entry.domain_self_dev_id)
-    Session.remove()
-
-def delete_domain_self_dev(domain_self_dev_id):
-    session = Session()
-    session.execute(domains_self_dev.delete().where(domains_self_dev.c.domain_self_dev_id == domain_self_dev_id))
-    Session.commit()
-    Session.remove()
 # Add similar functions for domains_self_dev and topics
 def add_topic():
     st.subheader("Add a new topic")
@@ -148,7 +118,7 @@ def delete_topic(topic_id):
 # Update app function
 def app():
     st.title("Configuration")
-    menu = ["Sentiment", "Domain", "Domains self dev", "Topic"]
+    menu = ["Sentiment", "Domain", "Topic"]
     choice = st.selectbox("Menu", menu)
     if choice == "Sentiment":
         add_sentiment()
@@ -156,9 +126,6 @@ def app():
     elif choice == "Domain":
         add_domain()
         view_domains()
-    elif choice == "Domains self dev":
-        add_domain_self_dev()
-        view_domains_self_dev()
     elif choice == "Topic":
         add_topic()
         view_topic()

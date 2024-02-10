@@ -21,11 +21,9 @@ def create_database():
         CREATE TABLE IF NOT EXISTS self_dev(
             entry_id INTEGER PRIMARY KEY, 
             date TEXT, 
-            domain_self_dev_id INTEGER, 
             topic_id INTEGER, 
             duration Integer, 
             description TEXT,
-            FOREIGN KEY(domain_self_dev_id) REFERENCES domains_self_dev(domain_self_dev_id)
             FOREIGN KEY(topic_id) REFERENCES topics(topic_id)
         )
     ''')
@@ -45,12 +43,7 @@ def create_database():
             domain TEXT
         )
     ''')
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS domains_self_dev(
-            domain_self_dev_id INTEGER PRIMARY KEY, 
-            domain TEXT
-        )
-    ''')
+  
     c.execute('''
         CREATE TABLE IF NOT EXISTS topics(
             topic_id INTEGER PRIMARY KEY, 
@@ -60,16 +53,13 @@ def create_database():
 
     # Insert initial entries for sentiments, domains, and topics
     sentiments = [('Positive', 'smile', 'green'), ('Negative', 'frown', 'red'),
-                  ('Worried', 'frown', 'yellow'), ('Delighted', 'smile', 'green'),]
+                  ('Worried', 'frown', 'yellow'), ('Delighted', 'smile', 'lime'),]
     c.executemany('INSERT INTO sentiments(sentiment, icon, color) VALUES (?, ?, ?)', sentiments)
 
     domains = [('Work',), ('Personal',), ('Global',)]
     c.executemany('INSERT INTO domains(domain) VALUES (?)', domains)
-    
-    domains_self_dev = [('Coding',), ('Learning',), ('Trend view',)]
-    c.executemany('INSERT INTO domains_self_dev(domain) VALUES (?)', domains_self_dev)
 
-    topics = [('Open Source',), ('Reading',), ('Exercise',), ('Presonal Project',), ('Learning',)]
+    topics = [('Open Source',), ('Reading',), ('Pet Project',), ('Videos AI',), ('Learning',)]
     c.executemany('INSERT INTO topics (topic) VALUES (?)', topics)
 
     # Commit changes and close connection
