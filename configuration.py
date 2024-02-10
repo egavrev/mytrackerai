@@ -62,7 +62,7 @@ def add_domain():
         session.execute(domains.insert().values(domain=domain))
         session.commit()
         Session.remove()
-        st.success("Successfully added a new domain")
+        st.success("Successfully added a new domain",icon="✅")
 
 def view_domains():
     st.subheader("View existing domains")
@@ -74,12 +74,14 @@ def view_domains():
             cols[0].write(entry.domain_id)
             cols[1].write(entry.domain)
             if cols[2].button("Delete", key=entry.domain_id):
+                print(f"delete domain {entry.domain_id}")
                 delete_domain(entry.domain_id)
     Session.remove()
 
 def delete_domain(domain_id):
     session = Session()
     session.execute(domains.delete().where(domains.c.domain_id == domain_id))
+    session.commit()
     Session.remove()
 
 
@@ -106,9 +108,10 @@ def view_domains_self_dev():
                 delete_domain_self_dev(entry.domain_self_dev_id)
     Session.remove()
 
-def delete_domain(domain_self_dev_id):
+def delete_domain_self_dev(domain_self_dev_id):
     session = Session()
     session.execute(domains_self_dev.delete().where(domains_self_dev.c.domain_self_dev_id == domain_self_dev_id))
+    Session.commit()
     Session.remove()
 # Add similar functions for domains_self_dev and topics
 def add_topic():
