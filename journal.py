@@ -15,6 +15,20 @@ journal = Table('journal', metadata, autoload_with=engine)
 sentiments = Table('sentiments', metadata, autoload_with=engine)
 domains = Table('domains', metadata, autoload_with=engine)
 
+def list_sentiments():
+    session = Session()
+    result = session.execute(sentiments.select()).fetchall()
+    #domain_dict = {i.domain: i.domain_id for i in domain_list}
+    Session.remove()
+    return result
+
+def list_domains():
+    session = Session()
+    result = session.execute(domains.select()).fetchall()
+    #domain_dict = {i.domain: i.domain_id for i in domain_list}
+    Session.remove()
+    return result
+
 def add_journal_entry():
 
     # Create columns for date, domain, and sentiment
@@ -28,20 +42,20 @@ def add_journal_entry():
     domain_list = session.execute(domains.select()).fetchall()
     Session.remove()
     domain_dict = {i.domain: i.domain_id for i in domain_list}
-    domain = cols[1].selectbox("Domain", list(domain_dict.keys()))
+    domain_id = cols[1].selectbox("Domain", list(domain_dict.keys()))
 
     # Load sentiments from the sentiments table
     session = Session()
     sentiment_list = session.execute(sentiments.select()).fetchall()
     Session.remove()
     sentiment_dict = {i.sentiment: i.sentiment_id for i in sentiment_list}
-    sentiment = cols[2].selectbox("Sentiment", list(sentiment_dict.keys()))
+    sentiment_id = cols[2].selectbox("Sentiment", list(sentiment_dict.keys()))
 
     event_desc = st.text_area("Event Description")
     add_button = st.button("Add Journal Entry")
     if add_button:
         session = Session()
-        session.execute(journal.insert().values(date=date, domain=domain_dict[domain], sentiment=sentiment_dict[sentiment], description=event_desc))
+        session.execute(journal.insert().values(date=date, domain_id=domain_dict[domain_id], sentiment_id=sentiment_dict[sentiment_id], description=event_desc))
         session.commit()
         Session.remove()
         st.success("Successfully added a new journal entry")
@@ -68,12 +82,17 @@ def app():
     add_journal_entry()
     st.markdown("""---""")
     entries = view_journal_entries()
+    sentiments_list = list_sentiments()
+    domains_list = list_domains()   
+    
+
     if entries:
         for entry in entries:
             cols = st.columns([1, 1, 1, 1, 1])
-            cols[0].write(entry.date)
-            cols[1].write(entry.domain)
-            cols[2].write(entry.sentiment)
-            cols[3].write(entry.description)
+            color = sentiments_list[entry.sentiment_id-1][3]
+            cols[0].markdown(f"<div style='background-color:{color}; padding:10px;'>{entry.date}</div>", unsafe_allow_html=True)
+            cols[1].markdown(f"<div style='background-color:{color}; padding:10px;'>{domains_list[entry.domain_id-1][1]}</div>", unsafe_allow_html=True)
+            cols[2].markdown(f"<div style='background-color:{color}; padding:10px;'>{sentiments_list[entry.sentiment_id-1][2]}</div>", unsafe_allow_html=True)
+            cols[3].markdown(f"<div style='background-color:{color}; padding:10px;'>{entry.description}</div>", unsafe_allow_html=True)
             if cols[4].button("Delete", key=entry.entry_id):
                 delete_journal_entry(entry.entry_id)
