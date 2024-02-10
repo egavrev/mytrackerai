@@ -15,12 +15,13 @@ To install MyTrackerAI, follow these steps:
    `cd MyTrackerAI`
 
 3. Install the required packages: 
-
    `pip install -r requirements.txt`
 
-4. Run the application: 
+4. Initialize DB
+   `python db_init.py`
 
-   `python main.py`
+5. Run the application: 
+   `streamlit run main.py`
 
 ## Version Updates
 
