@@ -36,7 +36,7 @@ Try to rebuild it using Code Interpretor and assistants.
 - [X] Configuration add CRUD
 - [X] show tables entries with icons and in sentiment colors
 - [X] emoji codes not displayed after load from DB https://streamlit-emoji-shortcodes-streamlit-app-gwckff.streamlit.app/
-- [ ] On changing date refresh all for week in which this date is located. 
+- [X] On changing date refresh for selected date. 
 - [ ] Add planning for the self development activity.
 - [ ] print your status for weekly activity in case you are reaching targets. 
 - [ ] add for each entry prossibility to add voings for entry to add more weight to it
