@@ -87,12 +87,14 @@ def delete_domain(domain_id):
 def add_topic():
     st.subheader("Add a new topic")
     topic = st.text_input("Topic")
+    target_weekly_time = st.number_input("Target weekly time (min)", min_value=0, max_value=600)
     add_button = st.button("Add Topic")
+
     if add_button:
         session = Session()
-        session.execute(topics.insert().values(topic=topic))
+        session.execute(topics.insert().values(topic=topic, target_weekly_time=target_weekly_time))
         session.commit()
-        Session.remove()
+        Session.remove()    
 
 def view_topic():
     st.subheader("View existing topics")
@@ -103,6 +105,7 @@ def view_topic():
             cols = st.columns([1, 1, 1])
             cols[0].write(entry.topic_id)
             cols[1].write(entry.topic)
+            cols[2].write(entry.target_weekly_time)
             if cols[2].button("Delete", key=entry.topic_id):
                 delete_topic(entry.topic_id)
     Session.remove()

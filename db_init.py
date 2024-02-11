@@ -47,7 +47,8 @@ def create_database():
     c.execute('''
         CREATE TABLE IF NOT EXISTS topics(
             topic_id INTEGER PRIMARY KEY, 
-            topic TEXT
+            topic TEXT,
+            target_weekly_time INTEGER
         )
     ''')
 
@@ -59,8 +60,8 @@ def create_database():
     domains = [('Work',), ('Personal',), ('Global',)]
     c.executemany('INSERT INTO domains(domain) VALUES (?)', domains)
 
-    topics = [('Open Source',), ('Reading',), ('Pet Project',), ('Videos AI',), ('Learning',)]
-    c.executemany('INSERT INTO topics (topic) VALUES (?)', topics)
+    topics = [('Open Source',120), ('Reading',120), ('Pet Project',240), ('Videos AI',120), ('Learning',480)]
+    c.executemany('INSERT INTO topics (topic,target_weekly_time) VALUES (?,?)', topics)
 
     # Commit changes and close connection
     conn.commit()
