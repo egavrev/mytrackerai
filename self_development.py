@@ -1,9 +1,8 @@
-from sqlalchemy import create_engine, Table, MetaData
+from sqlalchemy import create_engine, Table, MetaData, and_
 from sqlalchemy.orm import scoped_session, sessionmaker
 import streamlit as st
-from datetime import datetime
+from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta, MO, SU
-
 
 # Create engine and scoped session
 engine = create_engine('sqlite:///sqlite.db')
@@ -22,17 +21,17 @@ def list_topics():
     Session.remove()
     return topic_dict
 
-def add_self_dev_entry():
-    cols = st.columns([0.70, 1, 2])
-    date = cols[0].date_input("Date")
+def add_self_dev_entry(date_input=datetime.today()):
+    cols = st.columns([1, 2])
+    date = date_input
 
     session = Session()
     topic_list = session.execute(topics.select()).fetchall()
     Session.remove()
     topic_dict = {i.topic: i.topic_id for i in topic_list}
-    topic_id = cols[1].selectbox("Topic", list(topic_dict.keys()))
+    topic_id = cols[0].selectbox("Topic", list(topic_dict.keys()))
 
-    duration = cols[2].select_slider("Duration", options=range(15, 121, 15))
+    duration = cols[1].select_slider("Duration", options=range(15, 121, 15))
     event_desc = st.text_area("Event Description")
     add_button = st.button("Add Self Development Entry")
     if add_button:
@@ -42,13 +41,11 @@ def add_self_dev_entry():
         Session.remove()
         st.success("Successfully added a new self development entry")
 
-def view_self_dev_entries():
-
+def view_self_dev_entries_for_date(date):
     session = Session()
-    result = session.execute(self_dev.select().order_by(self_dev.c.date.desc())).fetchall()
+    result = session.execute(self_dev.select().where(and_(self_dev.c.date >= date, self_dev.c.date < date + timedelta(days=1))).order_by(self_dev.c.date.desc())).fetchall()
     Session.remove()
     return result
-    
 
 def delete_self_dev_entry(entry_id):
     session = Session()
@@ -62,10 +59,13 @@ def app():
     sunday = today + relativedelta(weekday=SU(+1))
     st.header(f"Self development ")
     st.subheader(f" :calendar: {monday.strftime('%Y-%m-%d')} to {sunday.strftime('%Y-%m-%d')}")
-    add_self_dev_entry()
+
+    # Add date input
+    selected_date = st.date_input("Select a date", value=today)
+    add_self_dev_entry(selected_date)
     st.markdown("""---""")
     topics = list_topics()
-    all_entries = view_self_dev_entries()
+    all_entries = view_self_dev_entries_for_date(selected_date)
     for entry in all_entries:
         cols = st.columns([1, 1, 1, 1, 1])
         cols[0].write(entry.date)
