@@ -53,8 +53,8 @@ def create_database():
     ''')
 
     # Insert initial entries for sentiments, domains, and topics
-    sentiments = [('Positive', 'smile', 'green'), ('Negative', 'frown', 'red'),
-                  ('Worried', 'frown', 'yellow'), ('Delighted', 'smile', 'lime'),]
+    sentiments = [('Positive', ':smile:', 'green'), ('Negative', ':frown:', 'red'),
+                  ('Worried', ':frown:', 'yellow'), ('Delighted', ':smile:', 'lime'),]
     c.executemany('INSERT INTO sentiments(sentiment, icon, color) VALUES (?, ?, ?)', sentiments)
 
     domains = [('Work',), ('Personal',), ('Global',)]
