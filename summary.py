@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, Table, MetaData, and_, func
 from sqlalchemy.orm import scoped_session, sessionmaker
 from datetime import datetime, timedelta
 import streamlit as st
+import pandas as pd
 
 # Create engine and scoped session
 engine = create_engine('sqlite:///sqlite.db')
@@ -32,16 +33,30 @@ def summarize_self_dev_entries_for_week(start_date):
 
     # Convert the result to a dictionary
     summary = {row[0]: row[1] for row in result}
-    
 
     # Get the target weekly time for each topic
     topic_list = session.execute(topics.select()).fetchall()
     target_dict = {i.topic_id: (i.target_weekly_time, i.topic) for i in topic_list}
-    st.write(target_dict)
-    # Write the summary
-    for topic_id, total_time in summary.items():
-        target_time, topic_name = target_dict.get(topic_id, (0, "Unknown"))
-        st.write(f"Topic {topic_name}: spent {total_time} minutes, target was {target_time} minutes")
+
+    # Prepare data for the graph
+    data = {
+        'Topic': [],
+        'Time Spent': [],
+        'Target Time': []
+    }
+
+    # Write the summary and populate the graph data
+    for topic_id, (target_time, topic_name) in target_dict.items():
+        total_time = summary.get(topic_id, 0)
+        data['Topic'].append(topic_name)
+        data['Time Spent'].append(total_time)
+        data['Target Time'].append(target_time)
+
+    # Convert the data to a DataFrame
+    df = pd.DataFrame(data)
+
+    # Draw the chart
+    chart = st.bar_chart(df.set_index('Topic'))
 
     return summary
 
@@ -63,7 +78,7 @@ def get_weekly_self_dev():
 def app():
     st.title("Weekly Summary")
 
-    st.header("Progress for last 5 days:")
+    st.header("Progress for last 7 days:")
     today = datetime.now()
     summarize_self_dev_entries_for_week(today)
 
