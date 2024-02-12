@@ -42,13 +42,13 @@ Try to rebuild it using Code Interpretor and assistants.
 
 
 #### Version 0.2 - Open AI improve 
-- [ ] Print your status for weekly activity in case you are reaching targets. 
-- [ ] Add all data to vector for embedings using sqlite-vss
-- [ ] Use text embedingsfor text you are entering
-- [ ] Updation in the summary dashboard for an elaborate overview of progress.
-- [ ] In reports add categories to group and summarize my items.
-- [ ] Connect to LLM with options to summarize my activity for a week.
-- [ ] Think of a list of prompts tow extract match of info from your data.
+- [ ] Summary model: sum your weekly activity for each topic and show graphs vs targets.
+- [ ] Summary model: Think of a list of prompts to extract match of info from your data. 
+- [ ] Summary model: Connect to LLM with options to summarize my activity for a week - with different prompts.
+- [ ] Summary model: Make an library of prompts to work with your data.
+- [ ] Add all data to vector for embeddings using sqlite-vss
+- [ ] When typing a text have an option to improve text by pressing a button.
+
 
 #### for evaluation 
 - [ ] add for each entry prossibility to add voings for entry to add more weight to it
