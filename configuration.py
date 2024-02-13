@@ -18,9 +18,11 @@ topics = Table('topics', metadata, autoload_with=engine)
 #add functions for sentiments
 def add_sentiment():
     st.subheader("Add a new sentiment")
-    sentiment = st.text_input("Sentiment")
-    icon = st.text_input("Icon")
-    color = st.text_input("Color")
+   
+    cols = st.columns([1, 1, 1])
+    sentiment = cols[0].text_input("Sentiment")
+    icon = cols[1].text_input("Icon")
+    color = cols[2].color_picker("Pick a color", "#ff0000")
     add_button = st.button("Add Sentiment")
     if add_button:
         session = Session()

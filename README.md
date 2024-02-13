@@ -44,7 +44,7 @@ Try to rebuild it using Code Interpretor and assistants.
 #### Version 0.2 - Open AI improve 
 - [X] Summary model: sum your weekly activity for each topic and show graphs vs targets.
 - [X] Journal fix the size of each entry when it is large limit to some number of elements when mouse is over give full text.
-- [ ] Add color selector in sentiment configuration.
+- [X] Add color selector in sentiment configuration.
 - [ ] Summary model: Think of a list of prompts to extract match of info from your data. 
 - [ ] Summary model: Connect to LLM with options to summarize my activity for a week - with different prompts.
 - [ ] Summary model: Make an library of prompts to work with your data.
