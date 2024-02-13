@@ -46,7 +46,7 @@ Try to rebuild it using Code Interpretor and assistants.
 - [X] Journal fix the size of each entry when it is large limit to some number of elements when mouse is over give full text.
 - [X] Add color selector in sentiment configuration.
 - [ ] Summary model: Think of a list of prompts to extract match of info from your data. 
-- [ ] Summary model: Connect to LLM with options to summarize my activity for a week - with different prompts.
+- [X] Summary model: Connect to LLM with options to summarize my activity for a week - with different prompts.
 - [ ] Summary model: Make an library of prompts to work with your data.
 - [ ] Add all data to vector for embeddings using sqlite-vss
 - [ ] When typing a text have an option to improve text by pressing a button.
@@ -54,3 +54,4 @@ Try to rebuild it using Code Interpretor and assistants.
 
 #### for evaluation 
 - [ ] add for each entry prossibility to add voings for entry to add more weight to it
+- [ ] good idea to backup daily data. 

@@ -4,6 +4,20 @@ from datetime import datetime, timedelta
 import streamlit as st
 import pandas as pd
 
+import os
+from openai import OpenAI
+
+
+#connect to openai api
+API_KEY= os.getenv('OPENAI_API_KEY')
+client = OpenAI(api_key=API_KEY)
+
+if 'OPENAI_API_KEY' not in os.environ:
+        st.error('OpenAI API key not found. Please set it as an environment variable.')
+        st.stop()
+
+
+
 # Create engine and scoped session
 engine = create_engine('sqlite:///sqlite.db')
 session_factory = sessionmaker(bind=engine)
@@ -65,8 +79,11 @@ def get_weekly_journal():
     week_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
     session = Session()
     result = session.execute(journal.select().where(journal.c.date >= week_ago)).fetchall()
+    #summarize with open ai 
+    messages = [{"role": "user", "content": f"""summareize following information with general feedback  {result} """}]
+    response = client.chat.completions.create(model="gpt-4", messages=messages)
     Session.remove()
-    return result
+    return response.choices[0].message.content
 
 def get_weekly_self_dev():
     week_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
@@ -84,11 +101,9 @@ def app():
 
 
     st.header("This week's journal entries:")
-    journal_entries = get_weekly_journal()
-    for entry in journal_entries:
-        st.write(entry)
+    st.write(get_weekly_journal())
 
-    st.header("This week's self-development entries:")
-    self_dev_entries = get_weekly_self_dev()
-    for entry in self_dev_entries:
-        st.write(entry)
+    #st.header("This week's self-development entries:")
+    #self_dev_entries = get_weekly_self_dev()
+    #for entry in self_dev_entries:
+     #   st.write(entry)
