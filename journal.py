@@ -35,7 +35,7 @@ def add_journal_entry(date_input=datetime.today()):
     cols = st.columns([ 1, 1])
 
     # Date input
-    date = date_input#cols[0].date_input("Date",value="today",format="DD-MM-YYYY")
+    date = date_input
 
     # Load domains from the topics table
     session = Session()
@@ -51,7 +51,10 @@ def add_journal_entry(date_input=datetime.today()):
     sentiment_dict = {i.sentiment: i.sentiment_id for i in sentiment_list}
     sentiment_id = cols[1].selectbox("Sentiment", list(sentiment_dict.keys()))
 
-    event_desc = st.text_area("Event Description")
+    # Create a placeholder for the text area
+    event_desc_placeholder = st.empty()
+    event_desc = event_desc_placeholder.text_area("Event Description")
+
     add_button = st.button("Add Journal Entry")
     if add_button:
         session = Session()
@@ -59,6 +62,9 @@ def add_journal_entry(date_input=datetime.today()):
         session.commit()
         Session.remove()
         st.success("Successfully added a new journal entry")
+
+        # Clear the text area
+        event_desc_placeholder.empty()
 
 def view_journal_entries():
     session = Session()

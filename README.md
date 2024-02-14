@@ -45,13 +45,16 @@ Try to rebuild it using Code Interpretor and assistants.
 - [X] Summary model: sum your weekly activity for each topic and show graphs vs targets.
 - [X] Journal fix the size of each entry when it is large limit to some number of elements when mouse is over give full text.
 - [X] Add color selector in sentiment configuration.
+- [X] Journal clean entry box after message is saved.
 - [ ] Summary model: Think of a list of prompts to extract match of info from your data. 
 - [X] Summary model: Connect to LLM with options to summarize my activity for a week - with different prompts.
 - [ ] Summary model: Make an library of prompts to work with your data.
 - [ ] Add all data to vector for embeddings using sqlite-vss
 - [ ] When typing a text have an option to improve text by pressing a button.
+- [ ] Add possibility to upload images related to activity. 
 
 
 #### for evaluation 
 - [ ] add for each entry prossibility to add voings for entry to add more weight to it
 - [ ] good idea to backup daily data. 
+- [ ] Notification that you'll need to harry up with your goals.
