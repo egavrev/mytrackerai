@@ -49,6 +49,8 @@ Try to rebuild it using Code Interpretor and assistants.
 - [ ] Summary model: Think of a list of prompts to extract match of info from your data. 
 - [X] Summary model: Connect to LLM with options to summarize my activity for a week - with different prompts.
 - [ ] Summary model: Make an library of prompts to work with your data.
+- [ ] Configuration: show colors of lables in exact the on saved in DB.
+- [ ] Journal: Possibility to edit saved records from journal.
 - [ ] Add all data to vector for embeddings using sqlite-vss
 - [ ] When typing a text have an option to improve text by pressing a button.
 - [ ] Add possibility to upload images related to activity. 
