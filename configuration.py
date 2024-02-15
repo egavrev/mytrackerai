@@ -41,7 +41,7 @@ def view_sentiments():
             cols[0].write(entry.sentiment_id)
             cols[1].write(entry.sentiment)
             cols[2].write(entry.icon)
-            cols[3].write(entry.color)
+            cols[3].markdown(f"<p style='color: {entry.color};'>{entry.color}</p>", unsafe_allow_html=True)
             if cols[4].button("Delete", key=entry.sentiment_id):
                 delete_sentiment(entry.sentiment_id)
     Session.remove()
