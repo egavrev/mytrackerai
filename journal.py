@@ -3,6 +3,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 import streamlit as st
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta, MO, SU
+from streamlit_modal import Modal
 
 # Create engine and scoped session
 engine = create_engine('sqlite:///sqlite.db')
@@ -108,28 +109,26 @@ def app():
             color = sentiments_list[entry.sentiment_id-1][3]
             cols[0].markdown(f"<div style='background-color:{color}; padding:10px;'><strong style='color:black;'>{domains_list[entry.domain_id-1][1]}</strong></div>", unsafe_allow_html=True)
             cols[1].markdown(sentiments_list[entry.sentiment_id-1][2])
-            text_limit = 150
-            # Truncate the description to 100 characters
-            truncated_description = (entry.description[:text_limit] + '...') if len(entry.description) > text_limit else entry.description
-            if len(entry.description) > text_limit:
-                if cols[3].button('Expand', key=f'show_more_{entry.entry_id}'):
-                    cols[2].markdown(f"""
-                        <div style='background-color:{color};color:black; padding:10px;'>
-                            {entry.description}
-                        </div>
-                        """, unsafe_allow_html=True)
-                else:
-                    cols[2].markdown(f"""
-                        <div style='background-color:{color};color:black; padding:10px;'>
-                            {truncated_description}
-                        </div>
-                        """, unsafe_allow_html=True)
-            else:
-                cols[2].markdown(f"""
-                    <div style='background-color:{color};color:black; padding:10px;'>
-                        {entry.description}
-                    </div>
-                    """, unsafe_allow_html=True)
-            
+            # Create a text area for the description and set its initial value to the current description            
+            cols[2].markdown(entry.description, unsafe_allow_html=True)
+            # Create a placeholder for the text area
+            edit_button = cols[3].button("Edit", key=f"edit_{entry.entry_id}")
+            modal = Modal(key="Demo Key",title="Edit journal entry",)
+            if edit_button:
+                with modal.container():
+                    new_description = st.text_area("Edit Description", value=entry.description, key=f"description_{entry.entry_id}")
+                # Create a button for saving the changes
+                    test = st.button("tests", key=f"test_{entry.entry_id}")
+                    if test:
+                        print(f" new_description: {new_description} entry_id: {entry.entry_id}")
+                    save_button = st.button("Save Changes", key=f"save_{entry.entry_id}")
+                    # If the save button is clicked, update the database and clear the text area
+                    if save_button:
+                        session = Session()
+                        print(f" new_description: {new_description} entry_id: {entry.entry_id}")
+                        session.execute(journal.update().where(journal.c.entry_id == entry.entry_id).values(description=new_description))
+                        session.commit()
+                        Session.remove()
+
             if cols[3].button("Delete", key=entry.entry_id):
                 delete_journal_entry(entry.entry_id)
