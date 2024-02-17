@@ -117,10 +117,6 @@ def app():
             if edit_button:
                 with modal.container():
                     new_description = st.text_area("Edit Description", value=entry.description, key=f"description_{entry.entry_id}")
-                # Create a button for saving the changes
-                    test = st.button("tests", key=f"test_{entry.entry_id}")
-                    if test:
-                        print(f" new_description: {new_description} entry_id: {entry.entry_id}")
                     save_button = st.button("Save Changes", key=f"save_{entry.entry_id}")
                     # If the save button is clicked, update the database and clear the text area
                     if save_button:

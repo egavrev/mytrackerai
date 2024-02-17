@@ -1,0 +1,76 @@
+
+======= Requst =========
+
+I want you to act as a Product Owner. I will provide genearl ideas of an app, website or other digital product, 
+and it will be your job to come up with creative ways to describe product functionality with the best user experience and defien use cases. 
+Global scope is to develop an intuitive application that will build an assistant based on Autonomus AI Agent(ex. crewAI, AutoGPT, BabyAGI) 
+to guilde schollers after learning hours and to help them to learn how to organize their time and to learn from past experience. 
+As well to support them in their self-development and help with useful stuff like finding information, generating images, sending voice notifications. 
+Agent should be awre of the agenda, curent time and date and be able to ask questions and suggest work plan accordingly.
+
+For the frist versiom I propsoe to build an base flow of aplication: 
+1. Initialization : check the current time and date, 
+2. get agenda from memory.
+3. Ask the user to provide amount of home-work for today, nr. of excercise and nr. of pages to read.
+4. Prompt GPT for agent to build a plan for today, as well give details of reflection. 
+5. help to follow the paln - start timer, ask for feedback, store reflection into memory.
+6. Ask for feedback at end of the day, help to reflect and adjust the plan for the next days, store reflection into memory.
+7. To have an option to provide avilable functions like :
+   - interactive tutor, help to find information on different topics.
+   - research assistant
+   - image generation 
+   - check homework by gpt vision to anlaize photo of the homework and provide feedback.
+
+Non functional :
+1. notification by voice 
+2. text to speak to read what is coming back from agent. 
+
+
+
+
+Admin part (helped by parents ), while setting it up it will help kid and parent to bond tothther and to understand needs.
+1. Add agenda for each day from Mon-Friday.
+2. Check usual performance. Ask to read several pages to see timing. Ask to do several excercises to see timing. Ask to do several homeworks to see timing.
+3. Gamification upload / or draw an charcketr who will be presonification of the AI agent.
+   ask for name, how it should look like, what it should do, what it should say, what it should not say, what it should not do.
+4. Ask for feedback.
+
+
+For the best user experience, we'll ensure the application is designed to be intuitive and user-friendly, with a clean, modern look. All entries in the Journal and Self-Development sections will be easy to add, view, and delete. The Summary section will provide a visual and informative overview of the user's week, and the Configuration section will allow for customization of sentiments.
+In terms of business requirements, this application will be designed as a POC, so no authentication, user management, or logging system is needed at this stage. As we develop the product, we will gather feedback and make iterations to improve its functionality and user experience. 
+The user journey would involve them regularly adding entries to the Journal and Self-Development sections, tracking their progress throughout the week, adjusting their sentiments in the Configuration whenever necessary, and reviewing their weekly progress in the Summary section. Different use cases would include using the app to track personal or work activities, monitor their self-development, and reviewing their week to see their overall progress.
+
+This is POC NO authentication,  NO user management, nor logging system is needed at this stage. You can ask any clarification questions.
+Think in step by step mode, asking more detail on business requirements explain why you think it's the best option,
+select best option and provide as much as possible details on customer journey, different use cases, f.e. 
+on how to add new domain or sentiment or how it will look the entries in the table for each day.
+
+### 
+
+The app, tentatively named "MyAI Study Buddy", is an intelligent assistant designed to guide school students in managing their after-school hours, assisting them in organizing their time, and guiding them on self-development. The app uses an autonomous AI agent to provide this personalized assistance.
+
+The basic flow of the app is as follows:
+
+**Initialization:** When the user opens the app, it first checks the current date and time. This is to ensure that the app syncs with the real world and can provide accurate suggestions based on the time of day.
+
+**Get Agenda from Memory:** Next, the app retrieves the user's agenda from its memory. This includes all the tasks that the user needs to do for the day, such as homework, reading, exercises, etc.
+
+**User Input:** The app then prompts the user to provide the amount of homework they have for the day, the number of exercises they need to do, and the number of pages they need to read. This input is crucial for the AI agent to build an effective plan for the day.
+
+**Plan Generation:** The AI agent takes the user's input and generates a detailed plan for the day. This includes a schedule for when they should do their homework, exercises, and reading. This plan is not static - the AI is designed to learn from past experiences and adjust the plan accordingly.
+
+**Follow the Plan:** The app now helps the user follow the plan. This includes starting a timer for each activity, asking the user for feedback at the end of each activity, and storing reflections into its memory.
+
+**End of Day Reflection:** At the end of the day, the app asks the user for feedback on how well they followed the plan. It helps them reflect on their day and adjust the plan for the future.
+
+**Additional Features:** The app has a variety of other features to assist the user. For instance, it can act as an interactive tutor, a research assistant, generate images, check homework by analyzing photos, etc.
+
+**Non-Functional Requirements:** The app will also send voice notifications and use text-to-speech so it can read out loud the responses from the AI agent.
+
+For the admin part, parents will assist their children in setting up the app. They can add an agenda for each day from Monday to Friday. They can also check their child's performance by asking them to read several pages or do several exercises and see how much time it takes. This will help in setting up a realistic schedule. They can also gamify the process by uploading or drawing a character that personifies the AI agent.
+
+The app promises a sleek, modern, user-friendly interface. It is designed to provide a seamless user experience. In terms of business requirements, the app is currently designed as a POC (proof of concept), so it does not require any authentication or user management at this stage. It is a standalone app that can be used without needing to log in or create an account. However, as the product develops, such features may be added based on user feedback.
+
+The typical user journey involves adding entries to their schedule, tracking their progress, adjusting their schedule as necessary, and reviewing their progress at the end of the week. Different use cases include using the app to manage after-school activities, monitor self-development, and review weekly progress.
+
+
