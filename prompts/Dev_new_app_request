@@ -1,0 +1,245 @@
+
+Dev_new_app_request
+
+
+
+Now you are Python Developer, as a Python developer with expertise in working with databases.
+provide content for following files:
+1. `app.py` - The main application file where the Streamlit app is defined.
+2. `gpt3.py` - This module handles the communication with the OpenAI GPT-3 model.
+3. `user.py` - Contains the user model and related operations.
+
+=== acknowledge the rules ===
+This is POC: 
+NO authentication,  
+NO user management, 
+NO logging system  
+NO complex architecture is needed 
+NO HTML CSS or static entry at this stage. 
+USE Python and Streamlit as UI library 
+USE SQLight, sqlalchemy.
+
+
+
+Now you are Python Developer, as a Python developer with expertise in working with databases
+Database Initialization db_init.py scripts to run in SQLight to create needed tables with initial entires for sentiments, domains and topics.
+
+
+
+Yes, I acknowledge the rules. Here are the code snippets for the required files:
+
+1. `app.py`: This is the main application file which will define the Streamlit app and the user interface.
+
+```Python
+import streamlit as st
+from user import User
+
+def app():
+    st.title("MyAI Study Buddy")
+    st.write("Welcome to MyAI Study Buddy. An intuitive application to help scholars organize their time effectively.")
+    user = User()
+    user.get_agenda()
+
+if __name__ == "__main__":
+    app()
+```
+
+2. `gpt3.py`: This module is responsible for the communication with the OpenAI GPT-3 model.
+
+```Python
+import openai
+openai.api_key = 'YOUR_OPEN_AI_KEY'
+
+def generate_ai_response(prompt):
+    response = openai.Completion.create(
+      engine="text-davinci-001",
+      prompt=prompt,
+      temperature=0.5,
+      max_tokens=100
+    )
+
+    return response.choices[0].text.strip()
+```
+
+3. `user.py`: This file contains the user model and the related operations. 
+
+```Python
+from sqlalchemy.orm import Session
+from database import SessionLocal, engine, Base
+from models.user_model import User
+
+Base.metadata.create_all(bind=engine)
+
+class UserOperations:
+    def __init__(self):
+        self.db = SessionLocal()
+
+    def get_user(self, user_id):
+        return self.db.query(User).filter(User.id == user_id).first()
+
+    def get_agenda(self, user_id):
+        user = self.get_user(user_id)
+        if user:
+            return user.agendas
+        return None
+
+    def create_user(self, name, character_image):
+        db_user = User(name=name, character_image=character_image)
+        self.db.add(db_user)
+        self.db.commit()
+        self.db.refresh(db_user)
+        return db_user
+
+    def __del__(self):
+        self.db.close()
+```
+
+Sure, here are the code snippets for your requested Python files:
+
+5. `activity.py`: Contains the activity model and related operations.
+
+```Python
+from sqlalchemy.orm import Session
+from database import SessionLocal
+from models.activity_model import Activity
+
+class ActivityOperations:
+    def __init__(self):
+        self.db = SessionLocal()
+
+    def get_activity(self, activity_id):
+        return self.db.query(Activity).filter(Activity.id == activity_id).first()
+
+    def create_activity(self, agenda_id, activity_type, activity_description):
+        db_activity = Activity(agenda_id=agenda_id, activity_type=activity_type, activity_description=activity_description)
+        self.db.add(db_activity)
+        self.db.commit()
+        self.db.refresh(db_activity)
+        return db_activity
+
+    def __del__(self):
+        self.db.close()
+```
+
+6. `feedback.py`: Contains the feedback model and related operations.
+
+```Python
+from sqlalchemy.orm import Session
+from database import SessionLocal
+from models.feedback_model import Feedback
+
+class FeedbackOperations:
+    def __init__(self):
+        self.db = SessionLocal()
+
+    def get_feedback(self, feedback_id):
+        return self.db.query(Feedback).filter(Feedback.id == feedback_id).first()
+
+    def create_feedback(self, activity_id, feedback):
+        db_feedback = Feedback(activity_id=activity_id, feedback=feedback)
+        self.db.add(db_feedback)
+        self.db.commit()
+        self.db.refresh(db_feedback)
+        return db_feedback
+
+    def __del__(self):
+        self.db.close()
+```
+
+7. `utils.py`: A module that contains utility functions.
+
+```Python
+import time
+
+def start_timer():
+    start_time = time.time()
+    return start_time
+
+def end_timer(start_time):
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    return elapsed_time
+```
+
+8. `database.py`: Contains SQLAlchemy setup and connection details.
+
+```Python
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+
+SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
+
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
+```
+
+9. Here are the SQLAlchemy Model definitions:
+   
+   `user_model.py`
+
+```Python
+from sqlalchemy import Column, Integer, String
+from database import Base
+
+class User(Base):
+    __tablename__ = "users"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    character_image = Column(String)
+```
+   
+   `agenda_model.py`
+
+```Python
+from sqlalchemy import Column, Boolean, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
+from database import Base
+
+class Agenda(Base):
+    __tablename__ = "agendas"
+
+    id = Column(Integer, primary_key=True, index=True)
+    day_of_week = Column(String)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    activities = relationship("Activity", back_populates="agenda")
+```
+
+   `activity_model.py`
+
+```Python
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
+from database import Base
+
+class Activity(Base):
+    __tablename__ = "activities"
+
+    id = Column(Integer, primary_key=True, index=True)
+    activity_type = Column(String)
+    activity_description = Column(String)
+    start_time = Column(DateTime)
+    end_time = Column(DateTime)
+    agenda_id = Column(Integer, ForeignKey("agendas.id"))
+    feedbacks = relationship("Feedback", back_populates="activity")
+```
+
+   `feedback_model.py`
+
+```Python
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
+from database import Base
+
+class Feedback(Base):
+    __tablename__ = "feedbacks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    feedback = Column(String)
+    activity_id = Column(Integer, ForeignKey("activities.id"))
+```
