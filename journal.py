@@ -84,6 +84,7 @@ def delete_journal_entry(entry_id):
     session.execute(journal.delete().where(journal.c.entry_id == entry_id))
     session.commit()
     Session.remove()
+                
 
 def app():
     #string to show current week date from monday to sunday
@@ -101,7 +102,7 @@ def app():
     entries = view_journal_entries_for_date(selected_date)
     sentiments_list = list_sentiments()
     domains_list = list_domains()   
-    
+
 
     if entries:
         for entry in entries:
@@ -110,21 +111,7 @@ def app():
             cols[0].markdown(f"<div style='background-color:{color}; padding:10px;'><strong style='color:black;'>{domains_list[entry.domain_id-1][1]}</strong></div>", unsafe_allow_html=True)
             cols[1].markdown(sentiments_list[entry.sentiment_id-1][2])
             # Create a text area for the description and set its initial value to the current description            
-            cols[2].markdown(entry.description, unsafe_allow_html=True)
+            cols[2].markdown(f"{entry.description[:150]}...", unsafe_allow_html=True)
             # Create a placeholder for the text area
-            edit_button = cols[3].button("Edit", key=f"edit_{entry.entry_id}")
-            modal = Modal(key="Demo Key",title="Edit journal entry",)
-            if edit_button:
-                with modal.container():
-                    new_description = st.text_area("Edit Description", value=entry.description, key=f"description_{entry.entry_id}")
-                    save_button = st.button("Save Changes", key=f"save_{entry.entry_id}")
-                    # If the save button is clicked, update the database and clear the text area
-                    if save_button:
-                        session = Session()
-                        print(f" new_description: {new_description} entry_id: {entry.entry_id}")
-                        session.execute(journal.update().where(journal.c.entry_id == entry.entry_id).values(description=new_description))
-                        session.commit()
-                        Session.remove()
-
             if cols[3].button("Delete", key=entry.entry_id):
                 delete_journal_entry(entry.entry_id)
