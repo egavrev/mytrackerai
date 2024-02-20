@@ -46,7 +46,8 @@ Try to rebuild it using Code Interpretor and assistants.
 - [X] Journal fix the size of each entry when it is large limit to some number of elements when mouse is over give full text.
 - [X] Add color selector in sentiment configuration.
 - [X] Journal clean entry box after message is saved.
-- [ ] Journal: Possibility to edit saved records from journal  - try with https://docs.streamlit.io/library/advanced-features/dataframes
+- [X] Journal: Possibility to edit saved records from journal  - try with https://docs.streamlit.io/library/advanced-features/dataframes
+- [ ] Journal edit data, upate PD structure with right values, using session state check for eadited or added data udpate SQL.
 - [ ] Summary model: Think of a list of prompts to extract match of info from your data. 
 - [X] Summary model: Connect to LLM with options to summarize my activity for a week - with different prompts.
 - [ ] Summary model: Make an library of prompts to work with your data.

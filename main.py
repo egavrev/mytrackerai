@@ -1,5 +1,6 @@
 import streamlit as st
 import journal
+import journal_df
 import self_development
 import summary
 import configuration
@@ -7,6 +8,7 @@ import configuration
 
 PAGES = {
     "Journal": journal,
+    "Journal_df": journal_df,
     "Self Development": self_development,
     "Summary": summary,
     "Configuration": configuration
