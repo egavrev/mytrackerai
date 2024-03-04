@@ -113,4 +113,4 @@ def app():
         df = pd.read_sql(query, conn, params={"selected_date": selected_date, "next_date": selected_date + timedelta(days=1)})
 
     # Display the DataFrame
-    st.data_editor(df, num_rows="dynamic", key="my_key")
+    st.data_editor(df, num_rows="dynamic", key="my_key",disabled=("domain", "sentiment"))
