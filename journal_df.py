@@ -103,7 +103,7 @@ def app():
 
     with engine.connect() as conn:
         query = """
-            SELECT domains.domain, sentiments.sentiment, journal.description
+            SELECT journal.entry_id, domains.domain, sentiments.sentiment, journal.description
             FROM journal
             JOIN domains ON journal.domain_id = domains.domain_id
             JOIN sentiments ON journal.sentiment_id = sentiments.sentiment_id
@@ -113,4 +113,10 @@ def app():
         df = pd.read_sql(query, conn, params={"selected_date": selected_date, "next_date": selected_date + timedelta(days=1)})
 
     # Display the DataFrame
-    st.data_editor(df, num_rows="dynamic", key="my_key",disabled=("domain", "sentiment"))
+
+    st.data_editor(df, num_rows="dynamic", key="my_key", 
+        column_config={
+        "entry_id":None,
+        "domain": {"disabled": True},
+        "sentiment": {"disabled": True},
+        "description": {"editable": False}})
