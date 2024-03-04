@@ -47,12 +47,14 @@ Try to rebuild it using Code Interpretor and assistants.
 - [X] Add color selector in sentiment configuration.
 - [X] Journal clean entry box after message is saved.
 - [X] Journal: Possibility to edit saved records from journal  - try with https://docs.streamlit.io/library/advanced-features/dataframes
-- [ ] Journal edit data, upate PD structure with right values, using session state check for eadited or added data udpate SQL.
+- [ ] Add save button to save edited fields.
+- [ ] update data base with saved information. 
+- [ ] update df with details on sentiments from lists. 
 - [ ] Summary model: Think of a list of prompts to extract match of info from your data. 
 - [X] Summary model: Connect to LLM with options to summarize my activity for a week - with different prompts.
 - [ ] Summary model: Make an library of prompts to work with your data.
 - [X] Configuration: show colors labels in the on saved in DB.
-- [ ] Add all data to vector for embeddings using sqlite-vss
+
 - [ ] When typing a text have an option to improve text by pressing a button.
 
 
@@ -60,5 +62,8 @@ Try to rebuild it using Code Interpretor and assistants.
 #### for evaluation 
 - [ ] add for each entry prossibility to add voings for entry to add more weight to it
 - [ ] good idea to backup daily data. 
+- [ ] add an token counter to see how many tokens where spent
+- [ ] show cost for each model 
 - [ ] Notification that you'll need to harry up with your goals.
 - [ ] Add possibility to upload images related to activity
+- [ ] Add all data to vector for embeddings using sqlite-vss

@@ -101,13 +101,16 @@ def app():
     add_journal_entry(selected_date)
     st.markdown("""---""")
 
-    # Load data from SQL into a DataFrame
     with engine.connect() as conn:
-        query = journal.select().where(and_(journal.c.date >= selected_date, journal.c.date < selected_date + timedelta(days=1))).order_by(journal.c.date.desc())
-        df = pd.read_sql(query, conn)
+        query = """
+            SELECT domains.domain, sentiments.sentiment, journal.description
+            FROM journal
+            JOIN domains ON journal.domain_id = domains.domain_id
+            JOIN sentiments ON journal.sentiment_id = sentiments.sentiment_id
+            WHERE journal.date >= :selected_date AND journal.date < :next_date
+            ORDER BY journal.date DESC
+        """
+        df = pd.read_sql(query, conn, params={"selected_date": selected_date, "next_date": selected_date + timedelta(days=1)})
 
     # Display the DataFrame
-    st.data_editor(df, num_rows="dynamic", key="my_key",disabled=("entry_id", "date", "domain_id", "sentiment_id"))
-    st.write("Here's the value in Session State:")
-    st.write(st.session_state["my_key"]) 
-    
+    st.data_editor(df, num_rows="dynamic", key="my_key")
