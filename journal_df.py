@@ -86,7 +86,17 @@ def delete_journal_entry(entry_id):
     session.execute(journal.delete().where(journal.c.entry_id == entry_id))
     session.commit()
     Session.remove()
-                
+
+def data_editor_callback(df):
+    print(st.session_state["my_key"]["edited_rows"])
+    print(df)
+    for row in st.session_state["my_key"]["edited_rows"]:
+       print({st.session_state["my_key"]["edited_rows"][row]['description']})  
+       print(row)
+      #      with engine.connect() as conn:
+       #         conn.execute(journal.update().where(journal.c.entry_id == row["entry_id"]).values(description=row["description"])
+    #clearn session state
+    st.session_state["my_key"]["edited_rows"] = {}         
 
 def app():
     #string to show current week date from monday to sunday
@@ -112,8 +122,9 @@ def app():
         """
         df = pd.read_sql(query, conn, params={"selected_date": selected_date, "next_date": selected_date + timedelta(days=1)})
 
-    # Display the DataFrame
-    st.data_editor(df, num_rows="dynamic", key="my_key", 
+    # Display the DataFrame in a Streamlit app transfer df to callback function
+    
+    st.data_editor(df, num_rows="dynamic", key="my_key", on_change=data_editor_callback, args={"df": df},
         column_config={
         "entry_id":None,
         "domain": {"disabled": True},
