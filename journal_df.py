@@ -113,10 +113,12 @@ def app():
         df = pd.read_sql(query, conn, params={"selected_date": selected_date, "next_date": selected_date + timedelta(days=1)})
 
     # Display the DataFrame
-
     st.data_editor(df, num_rows="dynamic", key="my_key", 
         column_config={
         "entry_id":None,
         "domain": {"disabled": True},
         "sentiment": {"disabled": True},
         "description": {"editable": False}})
+   
+    st.write("Here's the value in Session State:")
+    st.write(st.session_state["my_key"]) 
